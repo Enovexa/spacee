@@ -1,0 +1,2956 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Our Journey — Space Dance &amp; Art Academy</title>
+<link rel="icon" type="image/png" href="logo.png">
+<link rel="apple-touch-icon" href="logo.png">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600;700&family=Mrs+Saint+Delafield&display=swap');
+
+  :root{
+    --cream:#F5F1E8;
+    --ink:#211F1B;
+    --green-deep:#3F6B22;
+    --green:#6E9E3C;
+    --lime:#B7CE3E;
+    --smoke-dark:rgba(12,10,8,0.72);
+    --smoke-mid:rgba(20,17,14,0.35);
+    --footer-green:#000000;
+  }
+
+  *{box-sizing:border-box; margin:0; padding:0;}
+
+  img{
+    border-radius:12px;
+  }
+
+  html,body{
+    background:var(--cream);
+    font-family:'Fraunces', serif;
+    color:var(--ink);
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+    max-width:100%;
+  }
+
+  .hero{
+    position:relative;
+    width:100%;
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:var(--ink);
+    overflow:hidden;
+  }
+
+  .hero-photo{
+    position:absolute;
+    inset:-4% 0 0 0;
+    height:104%;
+    z-index:0;
+    background-image:image-set(url('abouthero.jpg') 1x);
+    background-image:url('abouthero.jpg');
+    background-size:cover;
+    background-position:center 22%;
+    image-rendering:-webkit-optimize-contrast;
+    filter:saturate(0.92) contrast(1.05) brightness(0.97);
+    opacity:0;
+    transform:translateY(48px);
+    animation: heroPhotoIn 2.6s cubic-bezier(0.19,1,0.22,1) 0.15s both;
+  }
+  .hero-photo::after{
+    content:'';
+    position:absolute;
+    inset:0;
+    background:
+      radial-gradient(ellipse 95% 75% at 50% 38%, rgba(20,17,14,0.18) 0%, rgba(15,13,10,0.55) 68%, rgba(8,6,5,0.82) 100%),
+      linear-gradient(180deg, rgba(10,8,6,0.62) 0%, rgba(10,8,6,0.08) 26%, rgba(10,8,6,0.1) 58%, rgba(6,5,4,0.78) 100%);
+  }
+
+  @keyframes heroPhotoIn {
+    from { opacity:0; transform:translateY(48px); }
+    to   { opacity:1; transform:translateY(0); }
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    .hero-photo{ animation:none; opacity:1; transform:none; }
+  }
+
+  /* PINNED NAV — stays fixed to the viewport on scroll, always transparent */
+  .site-nav{
+    position:fixed;
+    top:0; left:0; right:0;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:26px 4.5vw;
+    z-index:100;
+    transition:padding 0.35s ease;
+  }
+  .site-nav.is-scrolled{
+    padding:16px 4.5vw;
+  }
+  .site-nav.is-hidden{
+    opacity:0;
+    pointer-events:none;
+    transition:opacity 0.25s ease;
+  }
+  .nav-logo{
+    display:flex;
+    align-items:center;
+    gap:18px;
+  }
+  .nav-logo img{
+    height:100px;
+    width:auto;
+    display:block;
+    transition:height 0.35s ease;
+    border-radius:12px;
+  }
+  .site-nav.is-scrolled .nav-logo img{
+    height:64px;
+  }
+  .nav-logo-text{
+    font-family:'Fraunces', serif;
+    font-size:19px;
+    font-weight:600;
+    line-height:1.1;
+    color:var(--cream);
+    text-shadow:0 1px 10px rgba(0,0,0,0.45);
+    white-space:nowrap;
+  }
+  .nav-logo-text span{
+    display:block;
+    font-family:'Fraunces', serif;
+    font-size:9px;
+    font-weight:500;
+    color:var(--cream);
+    letter-spacing:0.6px;
+    margin-top:2px;
+    line-height:1.2;
+    white-space:nowrap;
+    opacity:0.85;
+  }
+
+  .nav-icons{
+    display:flex;
+    align-items:center;
+    gap:22px;
+  }
+  .nav-icons button, .nav-icons a{
+    width:42px;
+    height:42px;
+    border-radius:50%;
+    border:1px solid rgba(245,241,232,0.35);
+    background:rgba(20,17,14,0.35);
+    backdrop-filter:blur(6px);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+    text-decoration:none;
+  }
+  .nav-icons svg{ width:18px; height:18px; stroke:var(--cream); fill:none; stroke-width:1.6; }
+  .nav-icons svg.menu-icon{ width:20px; height:20px; stroke-width:2.4; stroke-linecap:square; }
+
+  /* ANIMATIONS */
+  @keyframes slideInFromLeft {
+    from {
+      opacity: 0;
+      transform: translateX(-60px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  @keyframes slideInFromRight {
+    from {
+      opacity: 0;
+      transform: translateX(60px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  /* MOBILE MENU */
+  .mobile-menu{
+    display:block;
+    position:fixed;
+    top:0;
+    left:0;
+    right:0;
+    height:100vh;
+    background:#1a1a1a;
+    padding:90px 40px 40px 60px;
+    z-index:100;
+    transform:translateY(-100%);
+    transition:transform 0.8s ease-in-out;
+    overflow-y:auto;
+  }
+
+  .mobile-menu.active{
+    transform:translateY(0);
+  }
+
+  .mobile-menu-close-wrapper{
+    position:absolute;
+    top:32px;
+    right:40px;
+    display:flex;
+    align-items:center;
+    gap:12px;
+  }
+
+  .close-label{
+    font-family:'Fraunces', serif;
+    font-size:14px;
+    color:#999;
+  }
+
+  .close-menu{
+    background:none;
+    border:none;
+    font-size:20px;
+    color:#fff;
+    cursor:pointer;
+    padding:0;
+    width:28px;
+    height:28px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    transition:transform 0.3s ease, opacity 0.3s ease;
+  }
+
+  .close-menu:hover{
+    transform:rotate(90deg);
+    opacity:0.8;
+  }
+
+  .mobile-menu-content{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+    gap:80px;
+    position:relative;
+  }
+
+  .mobile-menu-left{
+    flex:0 0 280px;
+    order:-1;
+  }
+
+  .mobile-menu-logo{
+    margin-bottom:40px;
+  }
+
+  .logo-text{
+    font-family:'Fraunces', serif;
+    font-size:18px;
+    font-weight:600;
+    color:#fff;
+    line-height:1.1;
+  }
+
+  .logo-text span{
+    display:block;
+    font-size:9px;
+    font-weight:500;
+    color:#fff;
+    letter-spacing:0.6px;
+    margin-top:2px;
+  }
+
+  .mobile-menu-section-title{
+    font-family:'Fraunces', serif;
+    font-size:14px;
+    font-weight:400;
+    color:#999;
+    margin-bottom:24px;
+    letter-spacing:0.5px;
+  }
+
+  .mobile-menu-items{
+    list-style:none;
+    padding:0;
+    margin:0;
+  }
+
+  .mobile-menu-items li{
+    margin-bottom:28px;
+    transform:translateX(-36px);
+    opacity:0;
+    transition:transform 0.7s ease, opacity 0.7s ease;
+  }
+
+  .mobile-menu.active .mobile-menu-items li{
+    transform:translateX(0);
+    opacity:1;
+  }
+
+  .mobile-menu.active .mobile-menu-items li:nth-child(1){transition-delay:0.20s;}
+  .mobile-menu.active .mobile-menu-items li:nth-child(2){transition-delay:0.30s;}
+  .mobile-menu.active .mobile-menu-items li:nth-child(3){transition-delay:0.40s;}
+  .mobile-menu.active .mobile-menu-items li:nth-child(4){transition-delay:0.50s;}
+  .mobile-menu.active .mobile-menu-items li:nth-child(5){transition-delay:0.60s;}
+  .mobile-menu.active .mobile-menu-items li:nth-child(6){transition-delay:0.70s;}
+  .mobile-menu.active .mobile-menu-items li:nth-child(7){transition-delay:0.80s;}
+  .mobile-menu.active .mobile-menu-items li:nth-child(8){transition-delay:0.90s;}
+
+  .mobile-menu-items a{
+    font-family:'Fraunces', serif;
+    font-size:22px;
+    font-weight:400;
+    color:#fff;
+    text-decoration:none;
+    display:flex;
+    align-items:center;
+    gap:12px;
+    transition:color 0.3s ease;
+  }
+
+  .mobile-menu-items a:hover{
+    color:#B7CE3E;
+  }
+
+  .arrow{
+    font-size:16px;
+    opacity:0.7;
+  }
+
+  /* RIGHT COLUMN */
+  .mobile-menu-right{
+    display:flex;
+    flex-direction:column;
+    gap:50px;
+    padding-top:0px;
+    flex:1;
+    text-align:right;
+    padding-right:20px;
+  }
+
+  .mobile-menu-contact-section{
+    padding-top:24px;
+    transform:translateX(36px);
+    opacity:0;
+    transition:transform 0.7s ease, opacity 0.7s ease;
+  }
+
+  .mobile-menu.active .mobile-menu-contact-section{
+    transform:translateX(0);
+    opacity:1;
+  }
+
+  .mobile-menu.active .mobile-menu-contact-section:nth-child(1){transition-delay:0.30s;}
+  .mobile-menu.active .mobile-menu-contact-section:nth-child(2){transition-delay:0.50s;}
+
+  .contact-question{
+    font-family:'Fraunces', serif;
+    font-size:18px;
+    font-weight:400;
+    color:#fff;
+    margin:0 0 16px 0;
+    line-height:1.3;
+  }
+
+  .contact-email{
+    margin:0 0 10px 0;
+  }
+
+  .contact-email a{
+    font-family:'Fraunces', serif;
+    font-size:18px;
+    color:#fff;
+    text-decoration:none;
+    transition:color 0.3s ease;
+  }
+
+  .contact-email a:hover{
+    color:#B7CE3E;
+  }
+
+  .contact-link a{
+    font-family:'Fraunces', serif;
+    font-size:20px;
+    font-weight:400;
+    color:#fff;
+    text-decoration:none;
+    display:flex;
+    align-items:center;
+    justify-content:flex-end;
+    gap:12px;
+    transition:color 0.3s ease;
+  }
+
+  .contact-link a:hover{
+    color:#B7CE3E;
+  }
+
+  .hero-text{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    text-align:center;
+    padding:150px 6vw 90px;
+    position:relative;
+    z-index:5;
+    max-width:920px;
+    margin:0 auto;
+    animation: heroTextIn 1.1s ease-out both;
+    animation-delay: 0.8s;
+  }
+
+  @keyframes heroTextIn {
+    from { opacity:0; transform:translateY(22px); }
+    to   { opacity:1; transform:translateY(0); }
+  }
+
+  .kicker{
+    font-family:'Inter', sans-serif;
+    font-size:12px;
+    font-weight:600;
+    letter-spacing:3px;
+    color:rgba(245,241,232,0.8);
+    margin-bottom:22px;
+  }
+
+  h1{
+    font-family:'Mrs Saint Delafield', cursive;
+    font-weight:400;
+    font-size:clamp(54px, 9vw, 132px);
+    line-height:0.95;
+    letter-spacing:0.5px;
+    color:var(--cream);
+    margin:0;
+    text-shadow:0 8px 40px rgba(0,0,0,0.4);
+  }
+
+  .hero-tagline{
+    font-family:'Inter', sans-serif;
+    font-weight:700;
+    font-size:clamp(14px, 1.7vw, 19px);
+    letter-spacing:5px;
+    text-transform:uppercase;
+    color:var(--cream);
+    margin-top:6px;
+  }
+
+  .hero-sub{
+    margin-top:30px;
+    max-width:460px;
+    font-family:'Fraunces', serif;
+    font-size:16px;
+    font-weight:400;
+    line-height:1.65;
+    color:rgba(245,241,232,0.82);
+  }
+
+  .hero-actions{
+    display:flex;
+    align-items:center;
+    gap:26px;
+    margin-top:38px;
+  }
+  .btn-primary{
+    background:var(--ink);
+    color:#fff;
+    border:none;
+    padding:16px 30px;
+    font-size:14.5px;
+    font-weight:600;
+    border-radius:2px;
+    cursor:pointer;
+    font-family:'Fraunces', serif;
+  }
+  .btn-text{
+    display:flex;
+    align-items:center;
+    gap:9px;
+    background:none;
+    border:none;
+    font-family:'Fraunces', serif;
+    font-size:14.5px;
+    font-weight:600;
+    color:var(--ink);
+    cursor:pointer;
+    border-bottom:1px solid var(--ink);
+    padding-bottom:3px;
+  }
+
+  /* FLOATING CARD bottom-left over photo edge, like reference */
+  .float-card{
+    position:absolute;
+    left:0;
+    bottom:48px;
+    background:var(--ink);
+    color:#fff;
+    padding:22px 26px;
+    width:260px;
+    z-index:15;
+    box-shadow:0 20px 50px rgba(0,0,0,0.25);
+  }
+  .float-card .tag{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    background:var(--lime);
+    color:var(--ink);
+    font-size:11.5px;
+    font-weight:600;
+    padding:5px 12px;
+    border-radius:20px;
+    margin-bottom:14px;
+  }
+  .float-card .tag .dot{
+    width:6px; height:6px; border-radius:50%; background:var(--ink);
+  }
+  .float-card p{
+    font-family:'Fraunces', serif;
+    font-size:16px;
+    line-height:1.4;
+    font-weight:500;
+  }
+  .float-card small{
+    display:block;
+    margin-top:10px;
+    font-family:'Inter',sans-serif;
+    font-size:12px;
+    color:rgba(255,255,255,0.65);
+  }
+
+  /* STUDIO SECTION */
+  .studio-section{
+    background:var(--cream);
+    padding:130px 6vw 110px;
+  }
+
+  .studio-header{
+    display:grid;
+    grid-template-columns:1.15fr 1fr;
+    gap:90px;
+    align-items:start;
+    max-width:1440px;
+    margin:0 auto 70px;
+  }
+
+  .studio-title{
+    font-family:'Fraunces', serif;
+    font-weight:400;
+    font-size:clamp(34px, 4.2vw, 58px);
+    line-height:1.08;
+    letter-spacing:-0.5px;
+    color:var(--ink);
+    margin:0;
+  }
+
+  .studio-copy p{
+    font-family:'Inter', sans-serif;
+    font-size:17px;
+    line-height:1.75;
+    color:#5B5850;
+    margin:0 0 24px;
+    max-width:480px;
+  }
+
+  .studio-copy .read-more{
+    display:inline-block;
+    font-family:'Fraunces', serif;
+    font-size:16px;
+    font-weight:500;
+    color:var(--ink);
+    text-decoration:none;
+    border-bottom:1px solid var(--ink);
+    padding-bottom:4px;
+    margin-top:4px;
+    transition:opacity 0.25s ease;
+  }
+  .studio-copy .read-more:hover{ opacity:0.55; }
+
+  .studio-gallery{
+    display:grid;
+    grid-template-columns:repeat(3, 1fr);
+    gap:24px;
+    max-width:1440px;
+    margin:0 auto;
+  }
+
+  .studio-gallery figure{
+    margin:0;
+    overflow:hidden;
+    background:#d8d4c8;
+  }
+
+  .studio-gallery img{
+    display:block;
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    filter:contrast(1.05);
+    transition:transform 0.7s ease;
+  }
+
+  .studio-gallery figure:hover img{ transform:scale(1.045); }
+
+  .studio-gallery .g1{ height:clamp(300px, 36vw, 500px); margin-top:0; }
+  .studio-gallery .g2{ height:clamp(340px, 42vw, 580px); margin-top:92px; }
+  .studio-gallery .g3{ height:clamp(360px, 44vw, 620px); margin-top:40px; }
+
+  /* SCROLL REVEAL */
+  .reveal{
+    opacity:0;
+    transition:opacity 1.2s cubic-bezier(0.19,1,0.22,1), transform 1.2s cubic-bezier(0.19,1,0.22,1);
+    will-change:opacity, transform;
+  }
+  .reveal-up{ transform:translateY(32px); }
+  .reveal-left{ transform:translateX(-90px); }
+  .reveal-right{ transform:translateX(90px); }
+  .reveal.is-visible{ opacity:1; transform:translate(0,0); }
+
+  @media (prefers-reduced-motion: reduce){
+    .reveal{ transition:none; opacity:1; transform:none; }
+  }
+
+  /* FEATURE SECTION — image / CTA / image, then text / image / text */
+  .feature-section{
+    background:var(--cream);
+    padding:0 6vw 130px;
+  }
+
+  .feature-row{
+    display:grid;
+    grid-template-columns:1fr 1fr 1fr;
+    gap:24px;
+    max-width:1440px;
+    margin:0 auto 24px;
+    align-items:stretch;
+  }
+
+  .feature-photo{
+    margin:0;
+    overflow:hidden;
+    background:#d8d4c8;
+    min-height:420px;
+  }
+  .feature-photo img{
+    display:block;
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    filter:contrast(1.05);
+    transition:transform 0.7s ease;
+  }
+  .feature-photo:hover img{ transform:scale(1.045); }
+
+  .feature-grid-photo{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    grid-template-rows:1fr 1fr;
+    gap:10px;
+    min-height:420px;
+  }
+  .feature-grid-photo img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    display:block;
+    filter:contrast(1.05);
+  }
+
+  .feature-cta{
+    background:var(--ink);
+    color:var(--cream);
+    padding:50px 42px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+  }
+  .feature-cta h2{
+    font-family:'Fraunces', serif;
+    font-weight:400;
+    font-size:clamp(26px, 2.8vw, 38px);
+    letter-spacing:0.5px;
+    margin:0 0 20px;
+  }
+  .feature-divider{
+    width:44px;
+    height:1px;
+    background:rgba(245,241,232,0.5);
+    margin:0 auto 22px;
+  }
+  .feature-cta p{
+    font-family:'Inter', sans-serif;
+    font-size:15px;
+    line-height:1.75;
+    color:rgba(245,241,232,0.82);
+    margin:0 0 28px;
+    max-width:300px;
+  }
+  .feature-cta a{
+    font-family:'Fraunces', serif;
+    font-size:12.5px;
+    font-weight:600;
+    letter-spacing:2px;
+    text-transform:uppercase;
+    color:var(--cream);
+    text-decoration:none;
+    border-bottom:1px solid var(--cream);
+    padding-bottom:4px;
+    transition:opacity 0.25s ease;
+  }
+  .feature-cta a:hover{ opacity:0.6; }
+
+  .feature-kicker{
+    font-family:'Fraunces', serif;
+    font-style:italic;
+    font-size:14px;
+    font-weight:500;
+    letter-spacing:4px;
+    text-transform:uppercase;
+    color:var(--ink);
+    opacity:0.75;
+    text-align:center;
+    margin:0 auto 40px;
+  }
+
+  /* SHOWCASE — cursive statement over a smoky photo, matching the hero treatment */
+  .showcase-section{
+    position:relative;
+    min-height:64vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    overflow:hidden;
+    background:var(--ink);
+  }
+  .showcase-bg{
+    position:absolute;
+    inset:0;
+    background-image:url('https://images.unsplash.com/photo-1524330685423-3e1966445abe?fm=jpg&q=80&w=2400&auto=format&fit=crop');
+    background-size:cover;
+    background-position:center 32%;
+    filter:saturate(0.5) sepia(0.25) brightness(0.8);
+  }
+  .showcase-bg::after{
+    content:'';
+    position:absolute;
+    inset:0;
+    background:
+      radial-gradient(ellipse 90% 70% at 50% 42%, var(--smoke-mid) 0%, var(--smoke-dark) 72%, rgba(8,6,5,0.86) 100%),
+      linear-gradient(180deg, rgba(10,8,6,0.55) 0%, rgba(10,8,6,0.15) 30%, rgba(10,8,6,0.2) 60%, rgba(6,5,4,0.78) 100%);
+  }
+  .showcase-content{
+    position:relative;
+    z-index:1;
+    text-align:center;
+    padding:120px 6vw;
+  }
+  .showcase-title{
+    font-family:'Mrs Saint Delafield', cursive;
+    font-weight:400;
+    font-size:clamp(48px, 8vw, 108px);
+    line-height:1;
+    letter-spacing:0.5px;
+    color:var(--cream);
+    margin:0;
+    text-shadow:0 8px 40px rgba(0,0,0,0.4);
+  }
+  .showcase-sub{
+    font-family:'Inter', sans-serif;
+    font-weight:700;
+    font-size:clamp(13px, 1.6vw, 18px);
+    letter-spacing:5px;
+    text-transform:uppercase;
+    color:var(--cream);
+    margin-top:16px;
+  }
+  .showcase-kicker{
+    margin-bottom:26px;
+    font-family:'Fraunces', serif;
+    font-style:italic;
+    font-weight:500;
+    letter-spacing:4px;
+  }
+
+  .feature-text{
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+  }
+  .feature-text h3{
+    font-family:'Fraunces', serif;
+    font-weight:400;
+    font-size:clamp(23px, 2.4vw, 30px);
+    letter-spacing:-0.3px;
+    color:var(--ink);
+    margin:0 0 18px;
+  }
+  .feature-text .feature-divider{
+    background:var(--ink);
+    opacity:0.35;
+    margin:0 0 20px;
+  }
+  .feature-text p{
+    font-family:'Inter', sans-serif;
+    font-size:15.5px;
+    line-height:1.75;
+    color:#5B5850;
+    margin:0 0 20px;
+    max-width:380px;
+  }
+  .feature-text a{
+    display:inline-block;
+    font-family:'Fraunces', serif;
+    font-size:13px;
+    font-weight:600;
+    letter-spacing:1.2px;
+    text-transform:uppercase;
+    color:var(--ink);
+    text-decoration:none;
+    border-bottom:1px solid var(--ink);
+    padding-bottom:4px;
+    transition:opacity 0.25s ease;
+  }
+  .feature-text a:hover{ opacity:0.55; }
+
+  .feature-text.right{
+    align-items:flex-end;
+    text-align:right;
+  }
+  .feature-text.right .feature-divider{ margin-left:auto; }
+  .feature-text.right p{ margin-left:auto; }
+
+  /* WHY CHOOSE US — big photo left, stacked feature list right */
+  .why-section{
+    background:var(--cream);
+    padding:0 6vw 130px;
+  }
+  .why-header{
+    max-width:1440px;
+    margin:0 auto 60px;
+    text-align:center;
+  }
+  .why-kicker{
+    font-family:'Fraunces', serif;
+    font-style:italic;
+    font-size:14px;
+    font-weight:500;
+    letter-spacing:4px;
+    text-transform:uppercase;
+    color:var(--ink);
+    opacity:0.75;
+    margin:0 0 18px;
+  }
+  .why-title{
+    font-family:'Fraunces', serif;
+    font-weight:400;
+    font-size:clamp(32px, 4vw, 52px);
+    line-height:1.1;
+    letter-spacing:-0.5px;
+    color:var(--ink);
+    margin:0;
+  }
+
+  .why-content{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:70px;
+    max-width:1440px;
+    margin:0 auto;
+    align-items:start;
+  }
+  .why-photo{
+    margin:0;
+    overflow:hidden;
+    background:#d8d4c8;
+    height:clamp(420px, 46vw, 640px);
+  }
+  .why-photo img{
+    display:block;
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    filter:contrast(1.05);
+    transition:transform 0.7s ease;
+  }
+  .why-photo:hover img{ transform:scale(1.045); }
+
+  .why-list{
+    display:flex;
+    flex-direction:column;
+    gap:38px;
+  }
+  .why-item{
+    display:flex;
+    gap:22px;
+    align-items:flex-start;
+  }
+  .why-thumb{
+    flex:0 0 96px;
+    width:96px;
+    height:96px;
+    overflow:hidden;
+    background:#d8d4c8;
+  }
+  .why-thumb img{
+    display:block;
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    filter:contrast(1.05);
+  }
+  .why-item-body{
+    flex:1;
+    min-width:0;
+  }
+  .why-item-label{
+    font-family:'Inter', sans-serif;
+    font-size:11.5px;
+    font-weight:600;
+    letter-spacing:2px;
+    text-transform:uppercase;
+    color:var(--ink);
+    margin:0 0 10px;
+  }
+  .why-item-heading{
+    font-family:'Fraunces', serif;
+    font-weight:400;
+    font-size:clamp(19px, 1.9vw, 23px);
+    line-height:1.25;
+    letter-spacing:-0.2px;
+    color:var(--ink);
+    margin:0 0 10px;
+  }
+  .why-item-text{
+    font-family:'Inter', sans-serif;
+    font-size:14.5px;
+    line-height:1.65;
+    color:#5B5850;
+    margin:0;
+    max-width:420px;
+  }
+
+
+  /* ===== BASE FOOTER STYLES (moved before media queries so mobile overrides win) ===== */
+  /* SITE FOOTER */
+  .site-footer{
+    background:var(--footer-green);
+    color:var(--cream);
+    border-radius:32px;
+    margin:60px 3vw 40px;
+    padding:70px 4.5vw 40px;
+  }
+
+  .footer-top{
+    display:flex;
+    align-items:flex-end;
+    justify-content:space-between;
+    gap:30px;
+    flex-wrap:wrap;
+    padding-bottom:50px;
+    border-bottom:1px solid rgba(245,241,232,0.15);
+    margin-bottom:50px;
+  }
+  .footer-kicker{
+    display:flex;
+    align-items:center;
+    gap:9px;
+    font-family:'Inter', sans-serif;
+    font-size:12px;
+    font-weight:600;
+    letter-spacing:2.5px;
+    text-transform:uppercase;
+    color:rgba(245,241,232,0.6);
+    margin:0 0 18px;
+  }
+  .footer-kicker .dot{
+    width:6px; height:6px; border-radius:50%; background:var(--lime);
+  }
+  .footer-heading{
+    font-family:'Mrs Saint Delafield', cursive;
+    font-weight:400;
+    font-size:clamp(48px, 7vw, 96px);
+    line-height:0.95;
+    letter-spacing:0.5px;
+    color:var(--cream);
+    margin:0;
+    text-shadow:0 8px 40px rgba(0,0,0,0.4);
+  }
+  .footer-cta-btn{
+    display:inline-flex;
+    align-items:center;
+    gap:10px;
+    background:var(--cream);
+    color:var(--ink);
+    padding:17px 30px;
+    border-radius:40px;
+    font-family:'Fraunces', serif;
+    font-weight:600;
+    font-size:13.5px;
+    letter-spacing:1.5px;
+    text-transform:uppercase;
+    text-decoration:none;
+    white-space:nowrap;
+    transition:opacity 0.25s ease;
+  }
+  .footer-cta-btn:hover{ opacity:0.8; }
+
+  .footer-columns{
+    display:grid;
+    grid-template-columns:1.2fr 1fr 1fr;
+    gap:50px;
+    padding-bottom:50px;
+    border-bottom:1px solid rgba(245,241,232,0.15);
+    margin-bottom:30px;
+    text-align:left;
+  }
+  .footer-logo-wrap{
+    margin-bottom:18px;
+  }
+  .footer-logo{
+    height:56px;
+    width:auto;
+    display:block;
+    border-radius:12px;
+  }
+  .footer-brand-name{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    font-family:'Fraunces', serif;
+    font-weight:500;
+    font-size:21px;
+    color:var(--cream);
+    margin:0 0 16px;
+    text-align:left;
+  }
+  .footer-brand{
+    text-align:left;
+  }
+  .footer-brand p{
+    font-family:'Inter', sans-serif;
+    font-size:14.5px;
+    line-height:1.75;
+    color:rgba(245,241,232,0.62);
+    max-width:320px;
+    margin:0 0 24px;
+    text-align:left;
+  }
+  .footer-contact a{
+    display:block;
+    font-family:'Inter', sans-serif;
+    font-size:14.5px;
+    color:rgba(245,241,232,0.82);
+    text-decoration:none;
+    margin-bottom:9px;
+    transition:color 0.2s ease;
+  }
+  .footer-contact a:hover{ color:var(--cream); }
+
+  .footer-locations{
+    margin-top:26px;
+    padding-top:24px;
+    border-top:1px solid rgba(245,241,232,0.12);
+    max-width:340px;
+  }
+  .footer-locations-title{
+    font-family:'Inter', sans-serif;
+    font-size:11.5px;
+    font-weight:600;
+    letter-spacing:2px;
+    text-transform:uppercase;
+    color:rgba(245,241,232,0.5);
+    margin:0 0 14px;
+  }
+  .footer-locations p{
+    font-family:'Inter', sans-serif;
+    font-size:14px;
+    line-height:1.65;
+    color:rgba(245,241,232,0.75);
+    margin:0 0 10px;
+  }
+  .footer-locations p strong{
+    font-family:'Fraunces', serif;
+    font-weight:500;
+    color:var(--cream);
+  }
+  .footer-locations-note{
+    font-style:italic;
+    color:rgba(245,241,232,0.5) !important;
+    font-size:13px !important;
+    margin-top:14px !important;
+  }
+
+  .footer-social-icons{
+    display:flex;
+    align-items:center;
+    gap:14px;
+    margin-top:24px;
+  }
+  .footer-social-icons a{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    width:38px;
+    height:38px;
+    border-radius:50%;
+    border:1px solid rgba(245,241,232,0.25);
+    color:rgba(245,241,232,0.75);
+    transition:color 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+  }
+  .footer-social-icons a:hover{
+    color:var(--footer-green);
+    background:var(--lime);
+    border-color:var(--lime);
+  }
+  .footer-social-icons svg{
+    width:18px;
+    height:18px;
+    fill:none;
+    stroke:currentColor;
+    stroke-width:1.6;
+  }
+
+  .footer-col-title{
+    font-family:'Inter', sans-serif;
+    font-size:11.5px;
+    font-weight:600;
+    letter-spacing:2px;
+    text-transform:uppercase;
+    color:rgba(245,241,232,0.5);
+    margin:0 0 22px;
+  }
+  .footer-col a{
+    display:block;
+    font-family:'Fraunces', serif;
+    font-size:16px;
+    color:var(--cream);
+    text-decoration:none;
+    margin-bottom:17px;
+    transition:opacity 0.2s ease, color 0.2s ease;
+  }
+  .footer-col a:hover{ opacity:0.75; color:var(--cream); }
+
+  .footer-hours-list{
+    list-style:none;
+    margin:0;
+    padding:0;
+  }
+  .footer-hours-list li{
+    display:flex;
+    justify-content:space-between;
+    gap:10px;
+    font-family:'Inter', sans-serif;
+    font-size:13px;
+    line-height:1.5;
+    color:rgba(245,241,232,0.65);
+    padding:9px 0;
+  }
+  .footer-hours-list li:last-child{ padding-bottom:0; }
+  .footer-hours-list li span:first-child{
+    font-family:'Fraunces', serif;
+    font-weight:500;
+    color:var(--cream);
+  }
+
+  .footer-bottom{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    flex-wrap:wrap;
+    gap:18px;
+  }
+  .footer-copyright{
+    font-family:'Inter', sans-serif;
+    font-size:13px;
+    color:rgba(245,241,232,0.5);
+  }
+  .footer-social{
+    display:flex;
+    gap:28px;
+  }
+  .footer-social a{
+    font-family:'Inter', sans-serif;
+    font-size:13.5px;
+    color:rgba(245,241,232,0.72);
+    text-decoration:none;
+    transition:color 0.2s ease;
+  }
+  .footer-social a:hover{ color:var(--cream); }
+  .footer-legal{
+    display:flex;
+    gap:26px;
+  }
+  .footer-legal a{
+    font-family:'Inter', sans-serif;
+    font-size:13px;
+    color:rgba(245,241,232,0.5);
+    text-decoration:none;
+    transition:color 0.2s ease;
+  }
+  .footer-legal a:hover{ color:var(--cream); }
+
+  @media (max-width:900px){
+    .hero{ min-height:100svh; }
+    .hero-text{ padding:120px 7vw 70px; }
+    .site-nav{ padding:16px 5vw; }
+    .site-nav.is-scrolled{ padding:12px 5vw; }
+    .nav-logo{ gap:10px; }
+    .nav-logo img{ height:56px; }
+    .site-nav.is-scrolled .nav-logo img{ height:44px; }
+    .nav-logo-text{ font-size:14px; }
+    .nav-logo-text span{ font-size:7.5px; }
+    .nav-icons{ gap:10px; }
+    .nav-icons button, .nav-icons a{ width:36px; height:36px; }
+    .nav-icons svg{ width:15px; height:15px; }
+    .nav-icons svg.menu-icon{ width:17px; height:17px; }
+    .float-card{ position:static; width:auto; margin:0 6vw 30px 6vw; }
+
+    .studio-section{ padding:80px 6vw 70px; }
+    .studio-header{ grid-template-columns:1fr; gap:28px; margin-bottom:44px; }
+    .studio-gallery{ grid-template-columns:1fr; gap:20px; }
+    .studio-gallery .g1, .studio-gallery .g2, .studio-gallery .g3{
+      height:62vw; margin-top:0;
+    }
+
+    .feature-section{ padding:0 6vw 80px; }
+    .feature-kicker{ margin-bottom:28px; }
+    .feature-row{ grid-template-columns:1fr; gap:18px; margin-bottom:18px; }
+    .feature-photo, .feature-grid-photo{ min-height:62vw; }
+    .feature-cta{ padding:44px 28px; }
+    .feature-text.right{ align-items:flex-start; text-align:left; }
+    .feature-text.right .feature-divider,
+    .feature-text.right p{ margin-left:0; }
+
+    .showcase-section{ min-height:46vh; }
+    .showcase-content{ padding:80px 7vw; }
+
+    .why-section{ padding:0 6vw 80px; }
+    .why-header{ margin-bottom:36px; }
+    .why-content{ grid-template-columns:1fr; gap:36px; }
+    .why-photo{ height:62vw; }
+    .why-thumb{ flex-basis:72px; width:72px; height:72px; }
+    .why-item{ gap:16px; padding-bottom:28px; }
+    .why-list{ gap:28px; }
+
+    .mobile-menu-content{
+      gap:24px;
+    }
+    .mobile-menu-left{
+      flex:0 0 auto;
+      width:auto;
+    }
+    .mobile-menu-right{
+      flex:1;
+      width:auto;
+      max-width:none;
+      margin-left:0;
+      align-items:flex-end;
+      padding-right:0;
+      gap:28px;
+    }
+    .mobile-menu-items a{
+      font-size:18px;
+    }
+    .contact-question,
+    .contact-email a,
+    .contact-link a{
+      font-size:15px;
+    }
+
+    .site-footer{ margin:36px 4vw 20px; padding:50px 6vw 40px; border-radius:22px; }
+    .footer-top{ flex-direction:column; align-items:flex-start; gap:26px; padding-bottom:36px; margin-bottom:36px; }
+    .footer-cta-btn{ align-self:flex-start; }
+    .footer-columns{ grid-template-columns:1fr; gap:42px; padding-bottom:36px; margin-bottom:24px; }
+    .footer-bottom{ flex-direction:column; align-items:flex-start; }
+    .footer-brand p{ max-width:100%; }
+    .footer-locations{ max-width:100%; }
+    .footer-col a{ margin-bottom:14px; }
+    .footer-hours-list li{ gap:16px; padding:12px 0; }
+  }
+
+  @media (max-width:768px){
+    /* Tablet & mobile footer adjustments */
+    .site-footer{ margin:40px 3.5vw 20px; padding:50px 5vw 35px; border-radius:20px; }
+    .footer-columns{ grid-template-columns:1fr; gap:48px; padding-bottom:42px; margin-bottom:28px; }
+    .footer-col-title{ margin-bottom:20px; }
+    .footer-col a{ margin-bottom:14px; }
+    .footer-hours-list li{ gap:14px; padding:12px 0; }
+  }
+
+  @media (max-width:420px){
+    .hero-text{ padding:110px 6vw 60px; }
+    .site-nav{ padding:18px 5vw; }
+    .site-nav.is-scrolled{ padding:14px 5vw; }
+    .nav-logo{ gap:12px; }
+    .nav-logo img{ height:58px; }
+    .site-nav.is-scrolled .nav-logo img{ height:48px; }
+    .nav-logo-text{ font-size:15px; }
+    .nav-logo-text span{ font-size:8.5px; }
+    .nav-icons{ gap:10px; }
+    .nav-icons button, .nav-icons a{ width:40px; height:40px; }
+    .nav-icons svg{ width:17px; height:17px; }
+    .nav-icons svg.menu-icon{ width:19px; height:19px; }
+    .hero-actions{ flex-direction:column; align-items:stretch; gap:14px; width:100%; }
+    .btn-primary{ width:100%; text-align:center; }
+    .btn-text{ justify-content:center; }
+
+    /* ===== MOBILE MENU (Home/About/Contact list) - STACKED, NOTHING CUT OFF ===== */
+    .mobile-menu{
+      padding:88px 22px 40px 22px;
+    }
+    .mobile-menu-content{
+      flex-direction:column;
+      align-items:stretch;
+      gap:40px;
+    }
+    .mobile-menu-left{
+      flex:none;
+      width:100%;
+    }
+    .mobile-menu-items a{
+      font-size:19px;
+    }
+    .mobile-menu-right{
+      flex:none;
+      width:100%;
+      max-width:100%;
+      align-items:flex-start;
+      text-align:left;
+      padding-right:0;
+      padding-top:8px;
+      border-top:1px solid rgba(255,255,255,0.12);
+      gap:28px;
+    }
+    .mobile-menu-contact-section{
+      padding-top:20px;
+    }
+    .contact-question{
+      font-size:14px;
+      margin-bottom:10px;
+    }
+    .contact-email{
+      margin-bottom:6px;
+    }
+    .contact-email a{
+      font-size:15px;
+      word-break:break-word;
+    }
+    .contact-link a{
+      font-size:16px;
+      justify-content:flex-start;
+    }
+
+    /* ===== MOBILE FOOTER - FULLY OPTIMIZED ===== */
+    .site-footer{ 
+      margin:28px 3.5vw 16px; 
+      padding:40px 4.5vw 30px; 
+      border-radius:18px;
+      background:var(--footer-green);
+    }
+    
+    /* Footer top section */
+    .footer-top{ 
+      flex-direction:column; 
+      align-items:flex-start; 
+      gap:18px; 
+      padding-bottom:24px; 
+      margin-bottom:24px;
+      border-bottom:1px solid rgba(245,241,232,0.15);
+    }
+    .footer-heading{ font-size:clamp(32px, 7vw, 48px); line-height:1.1; }
+    .footer-kicker{ font-size:9.5px; margin-bottom:12px; }
+    .footer-cta-btn{ 
+      padding:13px 22px; 
+      font-size:11px; 
+      letter-spacing:1px;
+      width:100%;
+      text-align:center;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      white-space:normal;
+    }
+    
+    /* Footer columns - fully stacked */
+    .footer-columns{ 
+      grid-template-columns:1fr; 
+      gap:36px; 
+      padding-bottom:28px; 
+      margin-bottom:20px;
+      border-bottom:1px solid rgba(245,241,232,0.15);
+    }
+    
+    /* Footer brand section */
+    .footer-brand{ width:100%; }
+    .footer-logo-wrap{ margin-bottom:12px; }
+    .footer-logo{ height:48px; }
+    .footer-brand-name{ 
+      font-size:17px; 
+      margin-bottom:10px;
+    }
+    .footer-brand p{ 
+      font-size:13px; 
+      line-height:1.7; 
+      margin-bottom:16px;
+      max-width:100%;
+      color:rgba(245,241,232,0.62);
+    }
+    .footer-contact a{ 
+      font-size:13px; 
+      margin-bottom:8px;
+      display:block;
+      color:rgba(245,241,232,0.82);
+      word-break:break-word;
+    }
+    
+    /* Footer locations */
+    .footer-locations{ 
+      margin-top:16px; 
+      padding-top:16px;
+      border-top:1px solid rgba(245,241,232,0.12);
+      width:100%;
+      max-width:100%;
+    }
+    .footer-locations-title{ 
+      font-size:10px; 
+      margin-bottom:11px;
+      letter-spacing:1.5px;
+      color:rgba(245,241,232,0.5);
+    }
+    .footer-locations p{ 
+      font-size:13px; 
+      line-height:1.6;
+      margin-bottom:9px;
+      color:rgba(245,241,232,0.75);
+    }
+    .footer-locations p strong{
+      color:var(--cream);
+      display:block;
+      margin-bottom:3px;
+    }
+    
+    /* Footer social icons */
+    .footer-social-icons{ 
+      gap:10px; 
+      margin-top:16px;
+      flex-wrap:wrap;
+    }
+    .footer-social-icons a{ 
+      width:36px; 
+      height:36px;
+      flex-shrink:0;
+      border:1px solid rgba(245,241,232,0.25);
+    }
+    .footer-social-icons svg{ width:16px; height:16px; }
+    
+    /* Footer company & hours columns */
+    .footer-col{ width:100%; }
+    .footer-col-title{ 
+      font-size:10px; 
+      margin-bottom:18px;
+      letter-spacing:1.8px;
+      text-transform:uppercase;
+      color:rgba(245,241,232,0.5);
+    }
+    .footer-col a{ 
+      font-size:14px; 
+      margin-bottom:12px;
+      display:block;
+      color:var(--cream);
+      text-decoration:none;
+      word-break:break-word;
+      transition:opacity 0.2s ease, color 0.2s ease;
+    }
+    .footer-col a:active{ opacity:0.75; color:var(--cream); }
+    
+    /* Footer business hours */
+    .footer-hours{ width:100%; }
+    .footer-hours-list{ 
+      width:100%;
+      overflow:visible;
+    }
+    .footer-hours-list li{ 
+      font-size:12.5px; 
+      padding:11px 0; 
+      gap:10px;
+      display:flex;
+      align-items:baseline;
+      justify-content:space-between;
+      color:rgba(245,241,232,0.65);
+      flex-wrap:nowrap;
+    }
+    .footer-hours-list li span:first-child{ 
+      font-size:12.5px;
+      font-weight:500;
+      color:var(--cream);
+      white-space:nowrap;
+      flex:0 0 auto;
+    }
+    .footer-hours-list li span:last-child{
+      text-align:right;
+      white-space:nowrap;
+      flex:0 0 auto;
+      margin-left:auto;
+    }
+    
+    /* Footer bottom */
+    .footer-bottom{ 
+      flex-direction:column; 
+      align-items:flex-start;
+      gap:14px;
+      width:100%;
+    }
+    .footer-copyright{ 
+      font-size:12px;
+      width:100%;
+      color:rgba(245,241,232,0.5);
+    }
+    .footer-social{ 
+      flex-direction:column;
+      gap:10px;
+      width:100%;
+    }
+    .footer-social a{
+      font-size:12.5px;
+      color:rgba(245,241,232,0.72);
+      text-decoration:none;
+      display:block;
+    }
+    .footer-legal{
+      flex-direction:column;
+      gap:10px;
+      width:100%;
+    }
+    .footer-legal a{
+      font-size:12px;
+      color:rgba(245,241,232,0.5);
+      text-decoration:none;
+      display:block;
+    }
+  }
+  /* OUR STORY SECTION */
+  .story-section{
+    background:var(--cream);
+    padding:150px 6vw 160px;
+    position:relative;
+    overflow:hidden;
+  }
+  .story-grid{
+    max-width:1440px;
+    margin:0 auto;
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:100px;
+    align-items:center;
+  }
+  .story-kicker{
+    font-family:'Fraunces', serif;
+    font-style:italic;
+    font-size:14px;
+    font-weight:500;
+    letter-spacing:4px;
+    text-transform:uppercase;
+    color:var(--ink);
+    margin:0 0 22px;
+  }
+  .story-heading{
+    font-family:'Fraunces', serif;
+    font-weight:400;
+    font-size:clamp(38px, 4.4vw, 64px);
+    line-height:1.08;
+    letter-spacing:-0.5px;
+    color:var(--ink);
+    margin:0 0 30px;
+  }
+  .story-copy p{
+    font-family:'Inter', sans-serif;
+    font-size:15.5px;
+    line-height:1.85;
+    color:#5B5850;
+    margin:0 0 22px;
+    max-width:540px;
+  }
+  .story-copy p:last-child{ margin-bottom:0; }
+  .story-copy strong{
+    color:var(--ink);
+    font-weight:600;
+  }
+  .story-stats{
+    display:flex;
+    gap:60px;
+    margin-top:44px;
+    padding-top:40px;
+  }
+  .story-stat-label{
+    font-family:'Inter', sans-serif;
+    font-size:12px;
+    font-weight:600;
+    letter-spacing:1.5px;
+    text-transform:uppercase;
+    color:#8a8578;
+    margin:0 0 6px;
+  }
+  .story-stat-value{
+    font-family:'Fraunces', serif;
+    font-weight:400;
+    font-size:clamp(38px, 4vw, 54px);
+    color:var(--ink);
+    line-height:1;
+  }
+  .story-stat-value span{
+    color:var(--ink);
+  }
+
+  .story-visual{
+    position:relative;
+    height:640px;
+  }
+  .story-photo-main{
+    position:absolute;
+    top:0;
+    right:0;
+    width:78%;
+    height:60%;
+    overflow:hidden;
+    box-shadow:0 30px 70px rgba(20,17,14,0.18);
+  }
+  .story-photo-main img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    display:block;
+    filter:contrast(1.05);
+  }
+  .story-photo-secondary{
+    position:absolute;
+    left:0;
+    bottom:0;
+    width:62%;
+    height:56%;
+    overflow:hidden;
+    box-shadow:0 30px 70px rgba(20,17,14,0.22);
+  }
+  .story-photo-secondary img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    display:block;
+    filter:contrast(1.05);
+  }
+  .story-badge{
+    position:absolute;
+    left:-18px;
+    top:38%;
+    background:var(--ink);
+    color:var(--cream);
+    padding:20px 24px;
+    z-index:5;
+    box-shadow:0 20px 50px rgba(0,0,0,0.25);
+    max-width:190px;
+  }
+  .story-badge .story-badge-num{
+    font-family:'Fraunces', serif;
+    font-size:30px;
+    color:var(--cream);
+    line-height:1;
+    margin-bottom:6px;
+  }
+  .story-badge .story-badge-text{
+    font-family:'Inter', sans-serif;
+    font-size:11.5px;
+    line-height:1.5;
+    color:rgba(245,241,232,0.85);
+  }
+
+  @media (max-width:980px){
+    .story-section{ padding:100px 6vw 110px; }
+    .story-grid{ grid-template-columns:1fr; gap:60px; }
+    .story-visual{ height:480px; order:-1; }
+    .story-stats{ gap:40px; }
+    .story-badge{ left:0; padding:16px 18px; max-width:160px; }
+  }
+  /* OUR MISSION SECTION */
+  .mission-section{
+    background:var(--cream);
+    padding:120px 6vw 120px;
+    position:relative;
+    overflow:hidden;
+  }
+  .mission-section::before{
+    content:'';
+    position:absolute;
+    inset:0;
+    background:
+      radial-gradient(ellipse 60% 50% at 85% 0%, rgba(33,31,27,0.04) 0%, transparent 60%),
+      radial-gradient(ellipse 50% 40% at 5% 100%, rgba(33,31,27,0.05) 0%, transparent 60%);
+    pointer-events:none;
+  }
+  .mission-header{
+    position:relative;
+    max-width:760px;
+    margin:0 auto 90px;
+    text-align:center;
+  }
+  .mission-kicker{
+    font-family:'Fraunces', serif;
+    font-style:italic;
+    font-size:14px;
+    font-weight:500;
+    letter-spacing:4px;
+    text-transform:uppercase;
+    color:var(--ink);
+    opacity:0.75;
+    margin:0 0 22px;
+  }
+  .mission-heading{
+    font-family:'Fraunces', serif;
+    font-weight:400;
+    font-size:clamp(32px, 3.8vw, 52px);
+    line-height:1.1;
+    letter-spacing:-0.5px;
+    color:var(--ink);
+    margin:0 0 22px;
+  }
+  .mission-sub{
+    font-family:'Inter', sans-serif;
+    font-size:16.5px;
+    line-height:1.75;
+    color:#5B5850;
+    margin:0;
+  }
+
+  /* Image + point-by-point layout */
+  .mission-body{
+    position:relative;
+    max-width:1320px;
+    margin:0 auto;
+    display:grid;
+    grid-template-columns:0.85fr 1fr;
+    gap:90px;
+    align-items:start;
+  }
+  .mission-visual{
+    position:sticky;
+    top:110px;
+    height:720px;
+    overflow:hidden;
+  }
+  .mission-visual img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    display:block;
+    filter:contrast(1.08) brightness(0.95);
+  }
+  .mission-visual::after{
+    content:'';
+    position:absolute;
+    inset:0;
+    background:linear-gradient(180deg, rgba(20,17,14,0.05) 0%, rgba(20,17,14,0.35) 100%);
+  }
+  .mission-visual-tag{
+    position:absolute;
+    left:28px;
+    bottom:28px;
+    z-index:2;
+    font-family:'Fraunces', serif;
+    font-style:italic;
+    font-size:15px;
+    color:var(--cream);
+    letter-spacing:0.3px;
+  }
+
+  .mission-list{
+    display:flex;
+    flex-direction:column;
+  }
+  .mission-point{
+    display:flex;
+    gap:22px;
+    padding:26px 0;
+  }
+  .mission-point:first-child{ padding-top:0; }
+  .mission-point:last-child{ padding-bottom:0; }
+  .mission-num{
+    flex:0 0 auto;
+    font-family:'Fraunces', serif;
+    font-size:14px;
+    font-weight:500;
+    color:var(--ink);
+    opacity:0.55;
+    letter-spacing:1px;
+    padding-top:3px;
+  }
+  .mission-point-body{ flex:1; min-width:0; }
+  .mission-item-heading{
+    font-family:'Fraunces', serif;
+    font-weight:400;
+    font-size:clamp(18px, 1.6vw, 21px);
+    line-height:1.3;
+    letter-spacing:-0.2px;
+    color:var(--ink);
+    margin:0 0 8px;
+  }
+  .mission-item-text{
+    font-family:'Inter', sans-serif;
+    font-size:13.5px;
+    line-height:1.7;
+    color:#5B5850;
+    margin:0;
+    max-width:440px;
+  }
+
+  @media (max-width:980px){
+    .mission-section{ padding:100px 6vw 100px; }
+    .mission-header{ margin-bottom:56px; }
+    .mission-body{ grid-template-columns:1fr; gap:44px; }
+    .mission-visual{ position:relative; top:0; height:340px; order:-1; }
+  }
+  /* OUR PHILOSOPHY SECTION */
+  .philosophy-section{
+    background:var(--green);
+    padding:70px 6vw 70px;
+    position:relative;
+  }
+  .philosophy-inner{
+    max-width:760px;
+    margin:0 auto;
+    text-align:center;
+  }
+  .philosophy-mark{
+    font-family:'Fraunces', serif;
+    font-size:56px;
+    line-height:1;
+    color:var(--cream);
+    opacity:0.85;
+    margin:0 0 10px;
+  }
+  .philosophy-quote{
+    font-family:'Fraunces', serif;
+    font-weight:400;
+    font-size:clamp(19px, 1.9vw, 23px);
+    line-height:1.65;
+    letter-spacing:0;
+    color:#ffffff;
+    margin:0 0 28px;
+  }
+  .philosophy-quote em{
+    font-style:italic;
+    color:#ffffff;
+  }
+  .philosophy-kicker{
+    font-family:'Fraunces', serif;
+    font-weight:500;
+    font-size:16px;
+    letter-spacing:0.2px;
+    color:#ffffff;
+    margin:0 0 4px;
+  }
+  .philosophy-sub{
+    font-family:'Inter', sans-serif;
+    font-size:13px;
+    color:rgba(255,255,255,0.75);
+    margin:0;
+  }
+
+  @media (max-width:980px){
+    .philosophy-section{ padding:56px 6vw 56px; }
+  }
+  /* FOUNDER SECTION */
+  .founder-section{
+    background:var(--cream);
+    padding:80px 6vw 150px;
+  }
+  .founder-grid{
+    max-width:1320px;
+    margin:0 auto;
+    display:grid;
+    grid-template-columns:0.8fr 1fr;
+    gap:90px;
+    align-items:center;
+  }
+  .founder-photo{
+    position:relative;
+    height:640px;
+    overflow:hidden;
+  }
+  .founder-photo img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    object-position:center 22%;
+    display:block;
+    filter:contrast(1.05);
+  }
+  .founder-photo-tag{
+    position:absolute;
+    left:0;
+    bottom:0;
+    background:var(--ink);
+    color:var(--cream);
+    padding:18px 26px;
+    font-family:'Fraunces', serif;
+    font-size:14px;
+    letter-spacing:0.3px;
+  }
+  .founder-photo-tag span{
+    display:block;
+    font-family:'Inter', sans-serif;
+    font-size:10.5px;
+    letter-spacing:1.5px;
+    text-transform:uppercase;
+    color:var(--cream);
+    margin-top:4px;
+  }
+
+  .founder-kicker{
+    font-family:'Fraunces', serif;
+    font-style:italic;
+    font-size:14px;
+    font-weight:500;
+    letter-spacing:4px;
+    text-transform:uppercase;
+    color:var(--ink);
+    margin:0 0 20px;
+  }
+  .founder-name{
+    font-family:'Fraunces', serif;
+    font-weight:400;
+    font-size:clamp(32px, 3.6vw, 48px);
+    line-height:1.15;
+    letter-spacing:-0.5px;
+    color:var(--ink);
+    margin:0 0 6px;
+  }
+  .founder-role{
+    font-family:'Inter', sans-serif;
+    font-size:13px;
+    font-weight:600;
+    letter-spacing:1.5px;
+    text-transform:uppercase;
+    color:#8a8578;
+    margin:0 0 30px;
+  }
+  .founder-copy p{
+    font-family:'Inter', sans-serif;
+    font-size:15px;
+    line-height:1.8;
+    color:#5B5850;
+    margin:0 0 20px;
+    max-width:560px;
+  }
+  .founder-copy p:last-child{ margin-bottom:0; }
+  .founder-copy strong{
+    color:var(--ink);
+    font-weight:600;
+  }
+
+  @media (max-width:980px){
+    .founder-section{ padding:60px 6vw 100px; }
+    .founder-grid{ grid-template-columns:1fr; gap:44px; }
+    .founder-photo{ height:440px; }
+  }
+  /* TEAM SECTION */
+  .team-section{
+    background:var(--cream);
+    padding:110px 6vw 150px;
+    position:relative;
+    overflow:hidden;
+  }
+  .team-section::before{
+    content:'';
+    position:absolute;
+    inset:0;
+    background:
+      radial-gradient(ellipse 55% 45% at 92% 8%, rgba(183,206,62,0.07) 0%, transparent 60%);
+    pointer-events:none;
+  }
+  .team-header{
+    position:relative;
+    max-width:680px;
+    margin:0 auto 80px;
+    text-align:center;
+  }
+  .team-kicker{
+    font-family:'Fraunces', serif;
+    font-style:italic;
+    font-size:14px;
+    font-weight:500;
+    letter-spacing:4px;
+    text-transform:uppercase;
+    color:var(--ink);
+    margin:0 0 20px;
+  }
+  .team-heading{
+    font-family:'Fraunces', serif;
+    font-weight:400;
+    font-size:clamp(32px, 3.8vw, 52px);
+    line-height:1.1;
+    letter-spacing:-0.5px;
+    color:var(--ink);
+    margin:0;
+  }
+
+  .team-grid{
+    position:relative;
+    max-width:1320px;
+    margin:0 auto;
+    display:grid;
+    grid-template-columns:0.7fr 1fr;
+    gap:70px;
+    align-items:center;
+  }
+  .team-card-photo{
+    height:560px;
+    overflow:hidden;
+    position:relative;
+  }
+  .team-card-photo img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    object-position:center 25%;
+    display:block;
+    filter:contrast(1.05);
+  }
+  .team-card-tag{
+    position:absolute;
+    left:0;
+    bottom:0;
+    background:var(--cream);
+    color:var(--ink);
+    padding:16px 24px;
+    font-family:'Fraunces', serif;
+    font-size:13.5px;
+  }
+  .team-card-tag span{
+    display:block;
+    font-family:'Inter', sans-serif;
+    font-size:10px;
+    letter-spacing:1.3px;
+    text-transform:uppercase;
+    color:var(--ink);
+    margin-top:3px;
+  }
+
+  .team-name{
+    font-family:'Fraunces', serif;
+    font-weight:400;
+    font-size:clamp(28px, 3vw, 40px);
+    line-height:1.15;
+    letter-spacing:-0.4px;
+    color:var(--ink);
+    margin:0 0 6px;
+  }
+  .team-role{
+    font-family:'Inter', sans-serif;
+    font-size:12.5px;
+    font-weight:600;
+    letter-spacing:1.3px;
+    text-transform:uppercase;
+    color:var(--ink);
+    margin:0 0 24px;
+  }
+  .team-copy p{
+    font-family:'Inter', sans-serif;
+    font-size:14.5px;
+    line-height:1.8;
+    color:#5B5850;
+    margin:0 0 18px;
+    max-width:520px;
+  }
+  .team-copy p:last-child{ margin-bottom:0; }
+
+  @media (max-width:980px){
+    .team-section{ padding:100px 6vw 100px; }
+    .team-header{ margin-bottom:56px; }
+    .team-grid{ grid-template-columns:1fr; gap:40px; }
+    .team-card-photo{ height:420px; }
+  }
+  /* INSTRUCTORS — minimal grid */
+  .instructors-section{
+    background:var(--cream);
+    padding:130px 6vw 60px;
+  }
+  .instructors-header{
+    max-width:680px;
+    margin:0 auto 70px;
+    text-align:center;
+  }
+  .instructors-kicker{
+    font-family:'Fraunces', serif;
+    font-style:italic;
+    font-size:14px;
+    font-weight:500;
+    letter-spacing:4px;
+    text-transform:uppercase;
+    color:var(--ink);
+    margin:0 0 20px;
+  }
+  .instructors-heading{
+    font-family:'Fraunces', serif;
+    font-weight:400;
+    font-size:clamp(30px, 3.4vw, 44px);
+    line-height:1.15;
+    letter-spacing:-0.4px;
+    color:var(--ink);
+    margin:0;
+  }
+  .instructors-grid{
+    max-width:1320px;
+    margin:0 auto;
+    display:grid;
+    grid-template-columns:repeat(2, 1fr);
+    column-gap:40px;
+    row-gap:40px;
+  }
+  .instructor-card{
+    background:#FFFFFF;
+    border-radius:22px;
+    padding:38px 34px 34px;
+    box-shadow:0 18px 40px rgba(33,31,27,0.07);
+  }
+  .instructor-name{
+    font-family:'Fraunces', serif;
+    font-weight:400;
+    font-size:21px;
+    letter-spacing:-0.2px;
+    color:var(--ink);
+    margin:0 0 8px;
+  }
+  .instructor-role{
+    font-family:'Inter', sans-serif;
+    font-size:11px;
+    font-weight:600;
+    letter-spacing:1px;
+    text-transform:uppercase;
+    color:var(--ink);
+    margin:0 0 16px;
+  }
+  .instructor-bio{
+    font-family:'Inter', sans-serif;
+    font-size:13.5px;
+    line-height:1.7;
+    color:#5B5850;
+    margin:0;
+  }
+
+  @media (max-width:980px){
+    .instructors-section{ padding:100px 6vw 50px; }
+    .instructors-header{ margin-bottom:50px; }
+    .instructors-grid{ grid-template-columns:1fr; row-gap:28px; }
+    .instructor-card{ padding:30px 26px 28px; }
+  }
+  /* AWARDS & RECOGNITION */
+  .awards-section{
+    background:var(--green);
+    padding:130px 6vw 140px;
+    position:relative;
+    overflow:hidden;
+  }
+  .awards-section::before{
+    content:'';
+    position:absolute;
+    inset:0;
+    background:none;
+    pointer-events:none;
+  }
+  .awards-grid{
+    position:relative;
+    max-width:1280px;
+    margin:0 auto;
+    display:grid;
+    grid-template-columns:0.85fr 1fr;
+    gap:90px;
+    align-items:start;
+  }
+  .awards-kicker{
+    font-family:'Fraunces', serif;
+    font-style:italic;
+    font-size:14px;
+    font-weight:500;
+    letter-spacing:4px;
+    text-transform:uppercase;
+    color:var(--cream);
+    margin:0 0 22px;
+  }
+  .awards-heading{
+    font-family:'Fraunces', serif;
+    font-weight:400;
+    font-size:clamp(32px, 3.8vw, 50px);
+    line-height:1.15;
+    letter-spacing:-0.5px;
+    color:#ffffff;
+    margin:0 0 24px;
+  }
+  .awards-note{
+    font-family:'Inter', sans-serif;
+    font-style:italic;
+    font-size:13.5px;
+    line-height:1.7;
+    color:rgba(255,255,255,0.8);
+    max-width:400px;
+    margin:0 0 40px;
+  }
+  .awards-photo{
+    width:100%;
+    max-width:420px;
+    height:300px;
+    overflow:hidden;
+    border-radius:16px;
+  }
+  .awards-photo img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    display:block;
+    filter:contrast(1.05) brightness(0.95);
+  }
+
+  .awards-list{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:28px;
+  }
+  .awards-item{
+    background:var(--cream);
+    border-radius:22px;
+    padding:38px 34px 34px;
+    box-shadow:0 18px 40px rgba(33,31,27,0.07);
+    display:flex;
+    flex-direction:column;
+    align-items:flex-start;
+  }
+  .awards-item h3{
+    font-family:'Fraunces', serif;
+    font-weight:500;
+    font-size:22px;
+    line-height:1.25;
+    color:var(--ink);
+    margin:6px 0 18px;
+  }
+  .awards-item-divider{
+    width:100%;
+    height:1px;
+    background:rgba(33,31,27,0.12);
+    margin:0 0 18px;
+  }
+  .awards-item p{
+    font-family:'Inter', sans-serif;
+    font-size:15px;
+    line-height:1.65;
+    color:rgba(33,31,27,0.6);
+    margin:0;
+  }
+  .awards-item p strong{
+    color:var(--ink);
+    font-weight:600;
+  }
+
+  @media (max-width:980px){
+    .awards-section{ padding:100px 6vw 100px; }
+    .awards-grid{ grid-template-columns:1fr; gap:44px; }
+  }
+  @media (max-width:640px){
+    .awards-list{ grid-template-columns:1fr; }
+  }
+  /* CLOSING QUOTE SECTION */
+  .closing-section{
+    position:relative;
+    min-height:78vh;
+    display:flex;
+    align-items:center;
+    overflow:hidden;
+    background:var(--ink);
+  }
+  .closing-bg{
+    position:absolute;
+    inset:0;
+    background-image:url('about4.jpeg');
+    background-size:cover;
+    background-position:center 22%;
+    filter:saturate(0.5) sepia(0.22) brightness(0.75);
+  }
+  .closing-bg::after{
+    content:'';
+    position:absolute;
+    inset:0;
+    background:
+      linear-gradient(90deg, rgba(8,6,5,0.88) 0%, rgba(8,6,5,0.6) 42%, rgba(8,6,5,0.25) 68%, rgba(8,6,5,0.55) 100%),
+      linear-gradient(180deg, rgba(8,6,5,0.35) 0%, rgba(8,6,5,0.15) 30%, rgba(8,6,5,0.5) 100%);
+  }
+  .closing-content{
+    position:relative;
+    z-index:1;
+    padding:140px 6vw;
+    max-width:680px;
+  }
+  .closing-kicker{
+    font-family:'Fraunces', serif;
+    font-style:italic;
+    font-size:14px;
+    font-weight:500;
+    letter-spacing:4px;
+    text-transform:uppercase;
+    color:var(--cream);
+    margin:0 0 26px;
+  }
+  .closing-heading{
+    font-family:'Fraunces', serif;
+    font-weight:400;
+    font-size:clamp(30px, 3.6vw, 46px);
+    line-height:1.25;
+    letter-spacing:-0.3px;
+    color:var(--cream);
+    margin:0 0 26px;
+    text-shadow:0 6px 30px rgba(0,0,0,0.35);
+  }
+  .closing-quote{
+    font-family:'Fraunces', serif;
+    font-style:italic;
+    font-weight:400;
+    font-size:clamp(17px, 1.5vw, 19px);
+    line-height:1.75;
+    color:rgba(245,241,232,0.85);
+    margin:0 0 34px;
+  }
+  .closing-signoff{
+    display:flex;
+    align-items:center;
+    gap:16px;
+  }
+  .closing-signoff-line{
+    width:44px;
+    height:1px;
+    background:var(--lime);
+  }
+  .closing-signoff-text{
+    font-family:'Inter', sans-serif;
+    font-size:12px;
+    font-weight:600;
+    letter-spacing:2px;
+    text-transform:uppercase;
+    color:rgba(245,241,232,0.7);
+  }
+
+  @media (max-width:980px){
+    .closing-section{ min-height:auto; }
+    .closing-content{ padding:110px 6vw; max-width:100%; }
+  }
+  /* GALLERY — moments section */
+  .gallery-section{
+    background:var(--cream);
+    padding:60px 6vw 130px;
+    overflow:hidden;
+  }
+  .gallery-grid{
+    max-width:1400px;
+    margin:0 auto;
+    display:grid;
+    grid-template-columns:1.15fr 1fr;
+    gap:20px;
+    align-items:stretch;
+  }
+  .gallery-main{
+    position:relative;
+    overflow:hidden;
+    aspect-ratio:3/4;
+    border-radius:16px;
+  }
+  .gallery-main img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    object-position:center 20%;
+    display:block;
+    filter:contrast(1.08);
+  }
+  .gallery-side{
+    display:flex;
+    flex-direction:column;
+    gap:20px;
+  }
+  .gallery-item{
+    position:relative;
+    overflow:hidden;
+    flex:1;
+    aspect-ratio:16/10;
+    border-radius:16px;
+  }
+  .gallery-item img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    object-position:center 25%;
+    display:block;
+    filter:contrast(1.08);
+  }
+  .gallery-tag{
+    position:absolute;
+    left:24px;
+    bottom:24px;
+    z-index:2;
+    display:flex;
+    flex-direction:column;
+    align-items:flex-start;
+    gap:10px;
+  }
+  .gallery-tag-title{
+    background:rgba(20,17,14,0.82);
+    backdrop-filter:blur(4px);
+    color:var(--cream);
+    font-family:'Fraunces', serif;
+    font-size:19px;
+    padding:12px 22px;
+    white-space:nowrap;
+  }
+  .gallery-tag-pill{
+    background:#2a2822;
+    color:rgba(245,241,232,0.85);
+    font-family:'Inter', sans-serif;
+    font-size:12px;
+    font-weight:500;
+    letter-spacing:0.3px;
+    padding:8px 18px;
+    white-space:nowrap;
+  }
+
+  @media (max-width:980px){
+    .gallery-section{ padding:50px 6vw 90px; }
+    .gallery-grid{ grid-template-columns:1fr; }
+    .gallery-main{ aspect-ratio:4/5; }
+    .gallery-item{ aspect-ratio:16/10; }
+  }
+
+  /* FOOTER — full width, no box */
+  .site-footer,
+  .site-footer:is(*){
+    margin:0 !important;
+    border-radius:0 !important;
+    width:100%;
+    padding-left:6vw !important;
+    padding-right:6vw !important;
+  }
+</style>
+
+</head>
+<body>
+
+<nav class="mobile-menu" id="mobileMenu">
+  <div class="mobile-menu-close-wrapper">
+    <span class="close-label">Close</span>
+    <button class="close-menu" id="closeMenu">✕</button>
+  </div>
+
+  <div class="mobile-menu-content">
+    <div class="mobile-menu-left">
+      <h3 class="mobile-menu-section-title">Menu</h3>
+      <ul class="mobile-menu-items">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About Us <span class="arrow">→</span></a></li>
+        <li><a href="services.html">Programs/Courses <span class="arrow">→</span></a></li>
+        <li><a href="event.html">Events <span class="arrow">→</span></a></li>
+        <li><a href="fee.html">Fees <span class="arrow">→</span></a></li>
+        <li><a href="costumerental.html">Costume Rental <span class="arrow">→</span></a></li>
+        <li><a href="testimonial.html">Testimonials <span class="arrow">→</span></a></li>
+        <li><a href="contact.html">Contact <span class="arrow">→</span></a></li>
+      </ul>
+    </div>
+    
+    <div class="mobile-menu-right">
+      <div class="mobile-menu-contact-section">
+        <p class="contact-question">Have a question?</p>
+        <p class="contact-email"><a href="mailto:sonu_francis@yahoo.co.nz">sonu_francis@yahoo.co.nz</a></p>
+        <p class="contact-email"><a href="mailto:spacedance569@gmail.com">spacedance569@gmail.com</a></p>
+      </div>
+      
+      <div class="mobile-menu-contact-section">
+        <p class="contact-question">Want to dance with us?</p>
+        <p class="contact-link"><a href="contact.html">Get in Touch <span class="arrow">→</span></a></p>
+      </div>
+      
+    </div>
+  </div>
+</nav>
+
+<div class="hero">
+
+  <nav class="site-nav" id="siteNav">
+    <div class="nav-logo">
+      <img src="logo.png" alt="Space Dance & Art Academy logo">
+      <div class="nav-logo-text">
+        Space
+        <span>DANCE &amp; ART ACADEMY</span>
+      </div>
+    </div>
+
+    <div class="nav-icons">
+      <button aria-label="Menu" id="menuBtn">
+        <svg class="menu-icon" viewBox="0 0 24 24"><line x1="4" y1="6" x2="20" y2="6"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="18" x2="14" y2="18"/></svg>
+      </button>
+    </div>
+  </nav>
+
+  <div class="hero-text">
+    <div class="kicker">Our Story &nbsp;•&nbsp; Our Passion</div>
+
+    <h1>Our Journey</h1>
+    <p class="hero-tagline">Where Every Step Tells a Story</p>
+
+    <p class="hero-sub">
+      Founded on a love of movement and community, Space Dance &amp; Art Academy has grown into a home for dancers of every age and background.<br><br>
+      Here, tradition meets creativity, discipline meets joy, and every student finds their own rhythm to shine.
+    </p>
+  </div>
+
+  <div class="hero-photo">
+  </div>
+
+</div>
+
+<section class="story-section">
+  <div class="story-grid">
+    <div class="story-content">
+      <div class="story-kicker reveal reveal-up">Our Story</div>
+      <h2 class="story-heading reveal reveal-up" style="transition-delay:0.08s">A decade of dance, now under new light</h2>
+
+      <div class="story-copy">
+        <p class="reveal reveal-up" style="transition-delay:0.14s">Space Dance &amp; Art Academy is a Brisbane-based dance and fitness academy with a growing presence in <strong>South Brisbane</strong> and <strong>North Brisbane</strong>. The academy has been shaping dancers for over a decade, and since 2025 has flourished under new ownership led by Francis Joseph.</p>
+
+        <p class="reveal reveal-up" style="transition-delay:0.2s">It was built on a simple vision — a welcoming, affordable and supportive space where children, young people and adults could discover the joy of dance, build confidence, stay active and experience the thrill of performing on stage.</p>
+
+        <p class="reveal reveal-up" style="transition-delay:0.26s">What began as a passion for bringing people together through movement has grown into a vibrant community of more than 150 dance students, alongside an expanding adult dance and Zumba fitness community — training across Bollywood, Bharatanatyam, Semi-Classical, Indian Folk, Hip-Hop, Fusion and Zumba Fitness.</p>
+
+        <p class="reveal reveal-up" style="transition-delay:0.32s">At Space, we believe dance is about far more than choreography. It builds confidence, improves fitness, develops discipline and teamwork, connects us with culture, creates friendships, and — most importantly — brings people together.</p>
+
+        <p class="reveal reveal-up" style="transition-delay:0.38s">Our students take what they learn beyond the classroom, performing at multicultural festivals, community celebrations, dance competitions, cultural programs and academy productions — including our own <strong>Space Annual Concert</strong>. Whether you're taking your first steps or refining years of experience, there's a place for you here.</p>
+      </div>
+
+      <div class="story-stats reveal reveal-up" style="transition-delay:0.44s">
+        <div>
+          <div class="story-stat-label">Years Strong</div>
+          <div class="story-stat-value">10<span>+</span></div>
+        </div>
+        <div>
+          <div class="story-stat-label">Dance Students</div>
+          <div class="story-stat-value">150<span>+</span></div>
+        </div>
+        <div>
+          <div class="story-stat-label">Dance Styles</div>
+          <div class="story-stat-value">7<span>+</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="story-visual">
+      <div class="story-photo-main reveal reveal-right">
+        <img src="abt001.jpg" alt="A Space Dance Academy student mid-performance">
+      </div>
+      <div class="story-photo-secondary reveal reveal-left" style="transition-delay:0.15s">
+        <img src="abt002.jpg" alt="A dancer practicing in the studio">
+      </div>
+      <div class="story-badge reveal reveal-up" style="transition-delay:0.3s">
+        <div class="story-badge-num">2025</div>
+        <div class="story-badge-text">New ownership, same heart — led by Francis Joseph</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="mission-section">
+  <div class="mission-header">
+    <div class="mission-kicker reveal reveal-up">Our Mission</div>
+    <h2 class="mission-heading reveal reveal-up" style="transition-delay:0.08s">Dance, fitness and performance — for everyone</h2>
+    <p class="mission-sub reveal reveal-up" style="transition-delay:0.14s">Our mission is to make dance, fitness and performance accessible, enjoyable and inclusive for our community.</p>
+  </div>
+
+  <div class="mission-body">
+    <div class="mission-visual reveal reveal-left">
+      <img src="about2.png" alt="A Bharatanatyam dancer expressing herself mid-performance">
+      <div class="mission-visual-tag">Dance with purpose</div>
+    </div>
+
+    <div class="mission-list">
+      <div class="mission-point reveal reveal-right">
+        <div class="mission-num">01</div>
+        <div class="mission-point-body">
+          <h3 class="mission-item-heading">Build confidence</h3>
+          <p class="mission-item-text">Through dance and performance, helping every student find their voice both on and off the stage.</p>
+        </div>
+      </div>
+
+      <div class="mission-point reveal reveal-right" style="transition-delay:0.06s">
+        <div class="mission-num">02</div>
+        <div class="mission-point-body">
+          <h3 class="mission-item-heading">Stay active, stay healthy</h3>
+          <p class="mission-item-text">Encouraging children and adults alike to remain active, fit and healthy in a way that feels joyful, not like a chore.</p>
+        </div>
+      </div>
+
+      <div class="mission-point reveal reveal-right" style="transition-delay:0.12s">
+        <div class="mission-num">03</div>
+        <div class="mission-point-body">
+          <h3 class="mission-item-heading">Quality training</h3>
+          <p class="mission-item-text">Providing quality dance training in a friendly, supportive environment shaped around every student.</p>
+        </div>
+      </div>
+
+      <div class="mission-point reveal reveal-right" style="transition-delay:0.18s">
+        <div class="mission-num">04</div>
+        <div class="mission-point-body">
+          <h3 class="mission-item-heading">Celebrate culture</h3>
+          <p class="mission-item-text">Celebrating Indian culture and arts while embracing multicultural and fusion styles that reflect our community.</p>
+        </div>
+      </div>
+
+      <div class="mission-point reveal reveal-right" style="transition-delay:0.24s">
+        <div class="mission-num">05</div>
+        <div class="mission-point-body">
+          <h3 class="mission-item-heading">Stages for everyone</h3>
+          <p class="mission-item-text">Creating opportunities for students to perform on community stages and larger platforms alike.</p>
+        </div>
+      </div>
+
+      <div class="mission-point reveal reveal-right" style="transition-delay:0.3s">
+        <div class="mission-num">06</div>
+        <div class="mission-point-body">
+          <h3 class="mission-item-heading">Creativity &amp; discipline</h3>
+          <p class="mission-item-text">Developing creativity, discipline, teamwork and stage confidence that carries into everyday life.</p>
+        </div>
+      </div>
+
+      <div class="mission-point reveal reveal-right" style="transition-delay:0.36s">
+        <div class="mission-num">07</div>
+        <div class="mission-point-body">
+          <h3 class="mission-item-heading">A community, not just a class</h3>
+          <p class="mission-item-text">Building friendships and a strong sense of community — because at Space, you're family the moment you walk through the door.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="philosophy-section">
+  <div class="philosophy-inner">
+    <div class="philosophy-mark reveal reveal-up">&rdquo;</div>
+    <p class="philosophy-quote reveal reveal-up" style="transition-delay:0.1s">Not everyone needs to become a <em>professional dancer</em>, but everyone deserves the opportunity to experience the joy of dance and the confidence of performing on stage.</p>
+    <div class="philosophy-kicker reveal reveal-up" style="transition-delay:0.2s">Our Philosophy</div>
+    <p class="philosophy-sub reveal reveal-up" style="transition-delay:0.26s">Space Dance &amp; Art Academy</p>
+  </div>
+</section>
+
+<section class="founder-section">
+  <div class="founder-grid">
+    <div class="founder-photo reveal reveal-left">
+      <img src="founder.jpg" alt="Francis Joseph, Founder and Director of Space Dance & Art Academy">
+      <div class="founder-photo-tag">Francis Joseph<span>Founder &amp; Director</span></div>
+    </div>
+
+    <div class="founder-text reveal reveal-right">
+      <div class="founder-kicker">Meet Our Founder</div>
+      <h2 class="founder-name">Francis Joseph</h2>
+      <p class="founder-role">Founder &amp; Director</p>
+
+      <div class="founder-copy">
+        <p>Francis Joseph is the Founder and Director of Space Dance &amp; Art Academy and has a genuine passion for dance, Indian arts, multiculturalism and community development.</p>
+
+        <p>He brings experience in coordinating multicultural programs, event management, dance and cultural activities, community events and team coordination.</p>
+
+        <p>One of his key strengths is bringing people together — instructors, dancers, parents, volunteers, community organisations and businesses — to create successful events and meaningful performance opportunities.</p>
+
+        <p>Francis is passionate about providing opportunities for both children and adults to develop confidence and experience the excitement of performing on stage.</p>
+
+        <p>Outside the academy, Francis is a <strong>Nurse Practitioner</strong>, bringing extensive professional experience in healthcare, leadership, communication, teamwork and community service.</p>
+
+        <p>His vision for Space is not simply to build a dance school, but to develop a supportive dance and fitness community where everyone feels welcome and has an opportunity to participate, perform and belong.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="team-section">
+  <div class="team-grid">
+    <div class="team-card-photo reveal reveal-left">
+      <img src="bonny.jpg" alt="Bonny Kurian, Team Leader and Dance Trainer at Space Dance & Art Academy">
+      <div class="team-card-tag">Bonny Kurian<span>Team Leader</span></div>
+    </div>
+
+    <div class="team-text reveal reveal-right">
+      <div class="team-kicker">Meet Our Team</div>
+      <h3 class="team-name">Bonny Kurian</h3>
+      <p class="team-role">Team Leader &nbsp;·&nbsp; Dance Trainer &nbsp;·&nbsp; Choreographer &nbsp;·&nbsp; Zumba Instructor</p>
+
+      <div class="team-copy">
+        <p>Bonny Kurian is a passionate dancer, choreographer and fitness instructor with experience across a wide range of Indian dance and fitness styles.</p>
+
+        <p>He is known for his friendly, flexible and approachable teaching style, working with students of different ages, abilities and fitness levels — understanding that everyone learns at a different pace.</p>
+
+        <p>His teaching focuses on gradually developing confidence, coordination, rhythm, fitness, expression and performance skills, all while ensuring students genuinely enjoy the learning experience.</p>
+
+        <p>Bonny plays a key role in choreography, instructor coordination, student development, Zumba programs and the artistic direction of Space performances.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="instructors-section">
+  <div class="instructors-header">
+    <div class="instructors-kicker reveal reveal-up">Our Instructors</div>
+    <h2 class="instructors-heading reveal reveal-up" style="transition-delay:0.08s">A team dedicated to every dancer's growth</h2>
+  </div>
+  <div class="instructors-grid">
+    <div class="instructor-card reveal reveal-left">
+      <h3 class="instructor-name">Swetha Gopan</h3>
+      <p class="instructor-role">Bollywood &nbsp;·&nbsp; Semi-Classical &nbsp;·&nbsp; Fusion</p>
+      <p class="instructor-bio">An experienced and enthusiastic instructor whose classes focus on technique, rhythm, expression, coordination and confidence — in a friendly, enjoyable environment.</p>
+    </div>
+
+    <div class="instructor-card reveal reveal-right" style="transition-delay:0.06s">
+      <h3 class="instructor-name">Dain Sony</h3>
+      <p class="instructor-role">Bollywood &nbsp;·&nbsp; Fusion &nbsp;·&nbsp; Performance</p>
+      <p class="instructor-bio">Brings energy, creativity and enthusiasm to the teaching team, helping students build technique, coordination, stage presence and performance confidence.</p>
+    </div>
+
+    <div class="instructor-card reveal reveal-left" style="transition-delay:0.12s">
+      <h3 class="instructor-name">Sandra Jogy</h3>
+      <p class="instructor-role">Bollywood &nbsp;·&nbsp; Fusion &nbsp;·&nbsp; Classical / Performance</p>
+      <p class="instructor-bio">Supports students through classes, rehearsals and performance preparation, with particular emphasis on confidence, teamwork, coordination and stage presentation.</p>
+    </div>
+
+    <div class="instructor-card reveal reveal-right" style="transition-delay:0.18s">
+      <h3 class="instructor-name">Milan Jai</h3>
+      <p class="instructor-role">Classical Dance &nbsp;·&nbsp; Instructor &nbsp;·&nbsp; Choreographer</p>
+      <p class="instructor-bio">An accomplished classical dancer passionate about Indian classical dance, helping students build technique, discipline, expression and rhythm, while contributing to choreography and performance preparation.</p>
+    </div>
+
+    <div class="instructor-card reveal reveal-left" style="transition-delay:0.24s">
+      <h3 class="instructor-name">Rishi Rajnikanth</h3>
+      <p class="instructor-role">Hip-Hop &nbsp;·&nbsp; Bollywood &nbsp;·&nbsp; Performance Support</p>
+      <p class="instructor-bio">Supports students through dance instruction, rehearsals and performance preparation, contributing to the academy's energetic and collaborative teaching environment.</p>
+    </div>
+
+    <div class="instructor-card reveal reveal-right" style="transition-delay:0.3s">
+      <h3 class="instructor-name">Riyana Francis</h3>
+      <p class="instructor-role">Academy Admin</p>
+      <p class="instructor-bio">The friendly face behind Space's day-to-day operations. All enquiries — enrolments, class schedules and general questions — can be directed to Riyana.</p>
+    </div>
+  </div>
+</section>
+
+<section class="gallery-section">
+  <div class="gallery-grid">
+    <div class="gallery-main reveal reveal-left">
+      <img src="abt003.jpg" alt="A Space Dance Academy student in mid-performance">
+      <div class="gallery-tag">
+        <div class="gallery-tag-title">The Passion</div>
+        
+      </div>
+    </div>
+
+    <div class="gallery-side">
+      <div class="gallery-item reveal reveal-right">
+        <img src="abt004.jpg" alt="A dancer captured in expressive motion">
+        <div class="gallery-tag">
+          <div class="gallery-tag-title">The Energy</div>
+          
+        </div>
+      </div>
+      <div class="gallery-item reveal reveal-right" style="transition-delay:0.12s">
+        <img src="abt005.jpg" alt="A dancer raising her arm mid-movement">
+        <div class="gallery-tag">
+          <div class="gallery-tag-title">The Rhythm</div>
+          
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="awards-section">
+  <div class="awards-grid">
+    <div class="awards-intro reveal reveal-up">
+      <div class="awards-kicker">Awards &amp; Recognition</div>
+      <h2 class="awards-heading">Moments we're proud of</h2>
+      <p class="awards-note">Specific competition names, prizes and years will be added as a full Achievements Timeline once the complete list is available.</p>
+      <div class="awards-photo">
+        <img src="about3.jpg" alt="A Space Dance Academy student performing on stage">
+      </div>
+    </div>
+
+    <div class="awards-list">
+      <div class="awards-item reveal reveal-right">
+        <h3>Dance Competitions</h3>
+        <div class="awards-item-divider"></div>
+        <p>Won prizes in dance competitions across a range of styles and categories, representing Space against other studios.</p>
+      </div>
+      <div class="awards-item reveal reveal-right" style="transition-delay:0.06s">
+        <h3>Multicultural Festivals</h3>
+        <div class="awards-item-divider"></div>
+        <p>Participated in numerous multicultural festivals and cultural celebrations throughout Brisbane and beyond.</p>
+      </div>
+      <div class="awards-item reveal reveal-right" style="transition-delay:0.12s">
+        <h3>Community Programs</h3>
+        <div class="awards-item-divider"></div>
+        <p>Provided performance opportunities for children, teenagers and adults alike through local community programs.</p>
+      </div>
+      <div class="awards-item reveal reveal-right" style="transition-delay:0.18s">
+        <h3>Space Utsav 2026</h3>
+        <div class="awards-item-divider"></div>
+        <p>Successfully organised <strong>Space Utsav 2026</strong>, bringing together dance, music, competition and multicultural entertainment.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="closing-section">
+  <div class="closing-bg"></div>
+  <div class="closing-content reveal reveal-left">
+    <div class="closing-kicker">Join The Family</div>
+    <h2 class="closing-heading">There's always room for one more dancer at Space.</h2>
+    <p class="closing-quote">"We don't just teach steps — we build confidence, celebrate culture and create performers. Whatever your age, whatever your experience, your story belongs on our stage."</p>
+    <div class="closing-signoff">
+      <div class="closing-signoff-line"></div>
+      <div class="closing-signoff-text">Space Dance &amp; Art Academy</div>
+    </div>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="footer-top">
+    <div>
+      <h2 class="footer-heading">Let's dance<br>together</h2>
+    </div>
+    <a class="footer-cta-btn" href="contact.html">Contact Us &nbsp;→</a>
+  </div>
+
+  <div class="footer-columns">
+    <div class="footer-brand">
+      <div class="footer-logo-wrap"><img class="footer-logo" src="logo.png" alt="Space Dance & Art Academy logo"></div>
+      <div class="footer-brand-name">Space Dance &amp; Art Academy</div>
+      <p>Two branches, one Space family. We build confidence, celebrate culture and create performers — one class at a time.</p>
+      <div class="footer-contact">
+        <a href="mailto:hello@spacedanceacademy.com.au">hello@spacedanceacademy.com.au</a>
+        <a href="tel:+61452649950">+61 452 649 950</a>
+      </div>
+      <div class="footer-locations">
+        <div class="footer-locations-title">Locations</div>
+        <p><strong>South Brisbane</strong> — Hillcrest, Acacia Ridge &amp; surrounding areas</p>
+        <p><strong>North Brisbane</strong> — Aspley / Bridgeman Downs &amp; surrounding areas</p>
+      </div>
+      <div class="footer-social-icons">
+        <a href="https://www.instagram.com/_spacedancex?stkn=MXhsMnJiYm9ydzUwaw==" aria-label="Instagram">
+          <svg viewBox="0 0 24 24"><rect x="2.5" y="2.5" width="19" height="19" rx="5"/><circle cx="12" cy="12" r="4.3"/><circle cx="17.3" cy="6.7" r="1.1" fill="currentColor" stroke="none"/></svg>
+        </a>
+        <a href="https://www.facebook.com/profile.php?id=61584801719037" aria-label="Facebook">
+          <svg viewBox="0 0 24 24"><path d="M15 8.5h2V5.2c-.35-.05-1.55-.15-2.95-.15-2.92 0-4.92 1.84-4.92 5.22V13.5H6.3v3.7h2.83V22h3.7v-4.8h2.72l.43-3.7h-3.15v-2.9c0-1.07.29-1.8 1.82-1.8z"/></svg>
+        </a>
+  
+        
+      </div>
+    </div>
+
+    <div class="footer-col">
+      <div class="footer-col-title">Company</div>
+      <a href="index.html">Home</a>
+      <a href="about.html">About Us</a>
+      <a href="services.html">Programs/Courses</a>
+      <a href="event.html">Events</a>
+      <a href="fee.html">Fees</a>
+      <a href="costumerental.html">Costume Rental</a>
+      <a href="testimonial.html">Testimonials</a>
+      <a href="contact.html">Contact</a>
+    </div>
+
+    <div class="footer-col footer-hours">
+      <div class="footer-col-title">Business Hours</div>
+      <ul class="footer-hours-list">
+        <li><span>Monday</span><span>9:00 AM – 5:30 PM</span></li>
+        <li><span>Tuesday</span><span>9:00 AM – 8:30 PM</span></li>
+        <li><span>Wednesday</span><span>By enquiry</span></li>
+        <li><span>Thursday</span><span>By enquiry</span></li>
+        <li><span>Friday</span><span>9:00 AM – 8:30 PM</span></li>
+        <li><span>Saturday</span><span>9:00 AM – 7:00 PM</span></li>
+        <li><span>Sunday</span><span>By enquiry</span></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <div class="footer-copyright">© 2026 Space Dance &amp; Art Academy. All rights reserved.</div>
+  </div>
+</footer>
+
+<script>
+  const menuBtn = document.getElementById('menuBtn');
+  const mobileMenu = document.getElementById('mobileMenu');
+  const closeMenu = document.getElementById('closeMenu');
+  const menuItems = document.querySelectorAll('.mobile-menu-items a');
+  const siteNav = document.getElementById('siteNav');
+
+  const openMobileMenu = () => {
+    mobileMenu.classList.add('active');
+    siteNav.classList.add('is-hidden');
+  };
+  const closeMobileMenu = () => {
+    mobileMenu.classList.remove('active');
+    siteNav.classList.remove('is-hidden');
+  };
+
+  // Open menu
+  menuBtn.addEventListener('click', openMobileMenu);
+
+  // Close menu
+  closeMenu.addEventListener('click', closeMobileMenu);
+
+  // Close menu when a menu item is clicked
+  menuItems.forEach(item => {
+    item.addEventListener('click', closeMobileMenu);
+  });
+
+  // Close menu when clicking outside
+  document.addEventListener('click', (e) => {
+    if (!mobileMenu.contains(e.target) && !menuBtn.contains(e.target)) {
+      closeMobileMenu();
+    }
+  });
+
+  // Pinned nav: add a background once the page scrolls past the hero photo
+  const setNavScrolled = () => {
+    if (window.scrollY > 40) {
+      siteNav.classList.add('is-scrolled');
+    } else {
+      siteNav.classList.remove('is-scrolled');
+    }
+  };
+  setNavScrolled();
+  window.addEventListener('scroll', setNavScrolled, { passive: true });
+
+  // Scroll-reveal: fade-up text, slide-in-from-side images
+  const revealEls = document.querySelectorAll('.reveal');
+  if ('IntersectionObserver' in window) {
+    const revealObserver = new IntersectionObserver((entries, observer) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.2, rootMargin: '0px 0px -60px 0px' });
+
+    revealEls.forEach(el => revealObserver.observe(el));
+  } else {
+    revealEls.forEach(el => el.classList.add('is-visible'));
+  }
+</script>
+
+</body>
+</html>

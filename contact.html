@@ -1,0 +1,1346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Contact — Space Dance &amp; Art Academy</title>
+<link rel="icon" type="image/png" href="logo.png">
+<link rel="apple-touch-icon" href="logo.png">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600;700&family=Mrs+Saint+Delafield&display=swap');
+
+  :root{
+    --cream:#F5F1E8;
+    --ink:#211F1B;
+    --green-deep:#3F6B22;
+    --green:#6E9E3C;
+    --lime:#B7CE3E;
+    --smoke-dark:rgba(12,10,8,0.72);
+    --smoke-mid:rgba(20,17,14,0.35);
+    --footer-green:#000000;
+  }
+
+  *{box-sizing:border-box; margin:0; padding:0;}
+
+  html,body{
+    background:var(--cream);
+    font-family:'Fraunces', serif;
+    color:var(--ink);
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+    max-width:100%;
+  }
+
+  .hero{
+    position:relative;
+    width:100%;
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:var(--ink);
+    overflow:hidden;
+  }
+
+  .hero-photo{
+    position:absolute;
+    inset:-4% 0 0 0;
+    height:104%;
+    z-index:0;
+    background-image:url('https://images.pexels.com/photos/30987442/pexels-photo-30987442.jpeg');
+    background-size:cover;
+    background-position:center 38%;
+    filter:saturate(0.55) sepia(0.28) brightness(0.9);
+    opacity:0;
+    transform:translateY(48px);
+    animation: heroPhotoIn 2.6s cubic-bezier(0.19,1,0.22,1) 0.15s both;
+  }
+  .hero-photo::after{
+    content:'';
+    position:absolute;
+    inset:0;
+    background:none;
+  }
+
+  @keyframes heroPhotoIn {
+    from { opacity:0; transform:translateY(48px); }
+    to   { opacity:1; transform:translateY(0); }
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    .hero-photo{ animation:none; opacity:1; transform:none; }
+  }
+
+  /* PINNED NAV — stays fixed to the viewport on scroll, always transparent */
+  .site-nav{
+    position:fixed;
+    top:0; left:0; right:0;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:26px 4.5vw;
+    z-index:100;
+    transition:padding 0.35s ease;
+  }
+  .site-nav.is-scrolled{
+    padding:16px 4.5vw;
+  }
+  .site-nav.is-hidden{
+    opacity:0;
+    pointer-events:none;
+    transition:opacity 0.25s ease;
+  }
+  .nav-logo{
+    display:flex;
+    align-items:center;
+    gap:18px;
+  }
+  .nav-logo img{
+    height:100px;
+    width:auto;
+    display:block;
+    transition:height 0.35s ease;
+  }
+  .site-nav.is-scrolled .nav-logo img{
+    height:64px;
+  }
+  .nav-logo-text{
+    font-family:'Fraunces', serif;
+    font-size:19px;
+    font-weight:600;
+    line-height:1.1;
+    color:var(--cream);
+    text-shadow:0 1px 10px rgba(0,0,0,0.45);
+    white-space:nowrap;
+  }
+  .nav-logo-text span{
+    display:block;
+    font-family:'Fraunces', serif;
+    font-size:9px;
+    font-weight:500;
+    color:var(--cream);
+    letter-spacing:0.6px;
+    margin-top:2px;
+    line-height:1.2;
+    white-space:nowrap;
+    opacity:0.85;
+  }
+
+  .nav-icons{
+    display:flex;
+    align-items:center;
+    gap:22px;
+  }
+  .nav-icons button, .nav-icons a{
+    width:42px;
+    height:42px;
+    border-radius:50%;
+    border:1px solid rgba(245,241,232,0.35);
+    background:rgba(20,17,14,0.35);
+    backdrop-filter:blur(6px);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+    text-decoration:none;
+  }
+  .nav-icons svg{ width:18px; height:18px; stroke:var(--cream); fill:none; stroke-width:1.6; }
+  .nav-icons svg.menu-icon{ width:20px; height:20px; stroke-width:2.4; stroke-linecap:square; }
+
+  /* ANIMATIONS */
+  @keyframes slideInFromLeft {
+    from { opacity: 0; transform: translateX(-60px); }
+    to { opacity: 1; transform: translateX(0); }
+  }
+  @keyframes slideInFromRight {
+    from { opacity: 0; transform: translateX(60px); }
+    to { opacity: 1; transform: translateX(0); }
+  }
+
+  /* MOBILE MENU */
+  .mobile-menu{
+    display:block;
+    position:fixed;
+    top:0;
+    left:0;
+    right:0;
+    height:100vh;
+    background:#1a1a1a;
+    padding:90px 40px 40px 60px;
+    z-index:100;
+    transform:translateY(-100%);
+    transition:transform 0.8s ease-in-out;
+    overflow-y:auto;
+  }
+
+  .mobile-menu.active{
+    transform:translateY(0);
+  }
+
+  .mobile-menu-close-wrapper{
+    position:absolute;
+    top:32px;
+    right:40px;
+    display:flex;
+    align-items:center;
+    gap:12px;
+  }
+
+  .close-label{
+    font-family:'Fraunces', serif;
+    font-size:14px;
+    color:#999;
+  }
+
+  .close-menu{
+    background:none;
+    border:none;
+    font-size:20px;
+    color:#fff;
+    cursor:pointer;
+    padding:0;
+    width:28px;
+    height:28px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    transition:transform 0.3s ease, opacity 0.3s ease;
+  }
+
+  .close-menu:hover{
+    transform:rotate(90deg);
+    opacity:0.8;
+  }
+
+  .mobile-menu-content{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+    gap:80px;
+    position:relative;
+  }
+
+  .mobile-menu-left{
+    flex:0 0 280px;
+    order:-1;
+  }
+
+  .mobile-menu-logo{
+    margin-bottom:40px;
+  }
+
+  .logo-text{
+    font-family:'Fraunces', serif;
+    font-size:18px;
+    font-weight:600;
+    color:#fff;
+    line-height:1.1;
+  }
+
+  .logo-text span{
+    display:block;
+    font-size:9px;
+    font-weight:500;
+    color:#fff;
+    letter-spacing:0.6px;
+    margin-top:2px;
+  }
+
+  .mobile-menu-section-title{
+    font-family:'Fraunces', serif;
+    font-size:14px;
+    font-weight:400;
+    color:#999;
+    margin-bottom:24px;
+    letter-spacing:0.5px;
+  }
+
+  .mobile-menu-items{
+    list-style:none;
+    padding:0;
+    margin:0;
+  }
+
+  .mobile-menu-items li{
+    margin-bottom:28px;
+    transform:translateX(-36px);
+    opacity:0;
+    transition:transform 0.7s ease, opacity 0.7s ease;
+  }
+
+  .mobile-menu.active .mobile-menu-items li{
+    transform:translateX(0);
+    opacity:1;
+  }
+
+  .mobile-menu.active .mobile-menu-items li:nth-child(1){transition-delay:0.20s;}
+  .mobile-menu.active .mobile-menu-items li:nth-child(2){transition-delay:0.30s;}
+  .mobile-menu.active .mobile-menu-items li:nth-child(3){transition-delay:0.40s;}
+  .mobile-menu.active .mobile-menu-items li:nth-child(4){transition-delay:0.50s;}
+  .mobile-menu.active .mobile-menu-items li:nth-child(5){transition-delay:0.60s;}
+  .mobile-menu.active .mobile-menu-items li:nth-child(6){transition-delay:0.70s;}
+  .mobile-menu.active .mobile-menu-items li:nth-child(7){transition-delay:0.80s;}
+  .mobile-menu.active .mobile-menu-items li:nth-child(8){transition-delay:0.90s;}
+
+  .mobile-menu-items a{
+    font-family:'Fraunces', serif;
+    font-size:22px;
+    font-weight:400;
+    color:#fff;
+    text-decoration:none;
+    display:flex;
+    align-items:center;
+    gap:12px;
+    transition:color 0.3s ease;
+  }
+
+  .mobile-menu-items a:hover{
+    color:#B7CE3E;
+  }
+
+  .arrow{
+    font-size:16px;
+    opacity:0.7;
+  }
+
+  /* RIGHT COLUMN */
+  .mobile-menu-right{
+    display:flex;
+    flex-direction:column;
+    gap:50px;
+    padding-top:0px;
+    flex:1;
+    text-align:right;
+    padding-right:20px;
+  }
+
+  .mobile-menu-contact-section{
+    padding-top:24px;
+    transform:translateX(36px);
+    opacity:0;
+    transition:transform 0.7s ease, opacity 0.7s ease;
+  }
+
+  .mobile-menu.active .mobile-menu-contact-section{
+    transform:translateX(0);
+    opacity:1;
+  }
+
+  .mobile-menu.active .mobile-menu-contact-section:nth-child(1){transition-delay:0.30s;}
+  .mobile-menu.active .mobile-menu-contact-section:nth-child(2){transition-delay:0.50s;}
+
+  .contact-question{
+    font-family:'Fraunces', serif;
+    font-size:18px;
+    font-weight:400;
+    color:#fff;
+    margin:0 0 16px 0;
+    line-height:1.3;
+  }
+
+  .contact-email{
+    margin:0 0 10px 0;
+  }
+
+  .contact-email a{
+    font-family:'Fraunces', serif;
+    font-size:18px;
+    color:#fff;
+    text-decoration:none;
+    transition:color 0.3s ease;
+  }
+
+  .contact-email a:hover{
+    color:#B7CE3E;
+  }
+
+  .contact-link a{
+    font-family:'Fraunces', serif;
+    font-size:20px;
+    font-weight:400;
+    color:#fff;
+    text-decoration:none;
+    display:flex;
+    align-items:center;
+    justify-content:flex-end;
+    gap:12px;
+    transition:color 0.3s ease;
+  }
+
+  .contact-link a:hover{
+    color:#B7CE3E;
+  }
+
+  .hero-text{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    text-align:center;
+    padding:150px 6vw 90px;
+    position:relative;
+    z-index:5;
+    max-width:920px;
+    margin:0 auto;
+    animation: heroTextIn 1.1s ease-out both;
+    animation-delay: 0.8s;
+  }
+
+  @keyframes heroTextIn {
+    from { opacity:0; transform:translateY(22px); }
+    to   { opacity:1; transform:translateY(0); }
+  }
+
+  .kicker{
+    font-family:'Inter', sans-serif;
+    font-size:12px;
+    font-weight:600;
+    letter-spacing:3px;
+    color:rgba(245,241,232,0.8);
+    margin-bottom:22px;
+  }
+
+  h1{
+    font-family:'Mrs Saint Delafield', cursive;
+    font-weight:400;
+    font-size:clamp(54px, 9vw, 132px);
+    line-height:0.95;
+    letter-spacing:0.5px;
+    color:var(--cream);
+    margin:0;
+    text-shadow:0 8px 40px rgba(0,0,0,0.4);
+  }
+
+  .hero-tagline{
+    font-family:'Inter', sans-serif;
+    font-weight:700;
+    font-size:clamp(14px, 1.7vw, 19px);
+    letter-spacing:5px;
+    text-transform:uppercase;
+    color:var(--cream);
+    margin-top:6px;
+  }
+
+  .hero-sub{
+    margin-top:30px;
+    max-width:460px;
+    font-family:'Fraunces', serif;
+    font-size:16px;
+    font-weight:400;
+    line-height:1.65;
+    color:rgba(245,241,232,0.82);
+  }
+
+  /* SCROLL REVEAL */
+  .reveal{
+    opacity:0;
+    transition:opacity 1.2s cubic-bezier(0.19,1,0.22,1), transform 1.2s cubic-bezier(0.19,1,0.22,1);
+    will-change:opacity, transform;
+  }
+  .reveal-up{ transform:translateY(32px); }
+  .reveal-left{ transform:translateX(-90px); }
+  .reveal-right{ transform:translateX(90px); }
+  .reveal.is-visible{ opacity:1; transform:translate(0,0); }
+
+  /* ===== CONTACT SECTION ===== */
+  .contact-section{
+    background:var(--cream);
+    padding:80px 6vw 70px;
+  }
+  .contact-header{
+    max-width:1440px;
+    margin:0 auto 40px;
+    text-align:center;
+  }
+  .contact-kicker{
+    font-family:'Fraunces', serif;
+    font-style:italic;
+    font-size:14px;
+    font-weight:500;
+    letter-spacing:4px;
+    text-transform:uppercase;
+    color:var(--green-deep);
+    margin:0 0 18px;
+  }
+  .contact-title{
+    font-family:'Fraunces', serif;
+    font-weight:400;
+    font-size:clamp(32px, 4vw, 52px);
+    line-height:1.1;
+    letter-spacing:-0.5px;
+    color:var(--ink);
+    margin:0;
+  }
+
+  .contact-grid{
+    display:grid;
+    grid-template-columns:1fr 1.2fr;
+    gap:40px;
+    max-width:1440px;
+    margin:0 auto;
+    align-items:start;
+  }
+
+  .contact-info{
+    background:var(--green-deep);
+    color:var(--cream);
+    padding:34px 34px;
+    border-radius:20px;
+  }
+  .contact-info-title{
+    font-family:'Fraunces', serif;
+    font-weight:400;
+    font-size:clamp(20px, 2.2vw, 24px);
+    margin:0 0 10px;
+  }
+  .contact-info-lead{
+    font-family:'Inter', sans-serif;
+    font-size:14px;
+    line-height:1.55;
+    color:rgba(245,241,232,0.7);
+    margin:0 0 18px;
+    max-width:340px;
+  }
+  .contact-info-row{
+    display:flex;
+    align-items:flex-start;
+    gap:14px;
+    padding:10px 0;
+  }
+  .contact-info-icon{
+    width:32px;
+    height:32px;
+    flex:0 0 32px;
+    border-radius:50%;
+    border:1px solid rgba(245,241,232,0.3);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+  .contact-info-icon svg{ width:14px; height:14px; stroke:var(--lime); fill:none; stroke-width:1.6; }
+  .contact-info-label{
+    font-family:'Inter', sans-serif;
+    font-size:10px;
+    font-weight:600;
+    letter-spacing:1.6px;
+    text-transform:uppercase;
+    color:rgba(245,241,232,0.5);
+    margin:0 0 4px;
+  }
+  .contact-info-value a, .contact-info-value p{
+    font-family:'Fraunces', serif;
+    font-size:14.5px;
+    color:var(--cream);
+    text-decoration:none;
+    margin:0;
+    line-height:1.4;
+  }
+  .contact-info-value a:hover{ color:var(--lime); }
+
+  .contact-info-social{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin-top:16px;
+  }
+  .contact-info-social a{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    width:32px;
+    height:32px;
+    border-radius:50%;
+    border:1px solid rgba(245,241,232,0.25);
+    color:rgba(245,241,232,0.75);
+    transition:color 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+  }
+  .contact-info-social a:hover{
+    color:var(--ink);
+    background:var(--lime);
+    border-color:var(--lime);
+  }
+  .contact-info-social svg{ width:16px; height:16px; fill:none; stroke:currentColor; stroke-width:1.6; }
+
+  .contact-form-wrap{
+    background:#fff;
+    border-radius:20px;
+    padding:34px 36px;
+    box-shadow:0 30px 70px rgba(20,17,14,0.08);
+  }
+  .contact-form-title{
+    font-family:'Fraunces', serif;
+    font-weight:400;
+    font-size:clamp(20px, 2.2vw, 24px);
+    color:var(--ink);
+    margin:0 0 6px;
+  }
+  .contact-form-note{
+    font-family:'Inter', sans-serif;
+    font-size:13.5px;
+    color:#5B5850;
+    margin:0 0 20px;
+  }
+  .contact-form{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:22px 24px;
+  }
+  .contact-form .full{ grid-column:1 / -1; }
+  .contact-field{
+    display:flex;
+    flex-direction:column;
+    gap:6px;
+  }
+  .contact-field label{
+    font-family:'Inter', sans-serif;
+    font-size:11.5px;
+    font-weight:600;
+    letter-spacing:1.5px;
+    text-transform:uppercase;
+    color:#8a8578;
+  }
+  .contact-field input,
+  .contact-field select,
+  .contact-field textarea{
+    font-family:'Inter', sans-serif;
+    font-size:15px;
+    color:var(--ink);
+    background:transparent;
+    border:none;
+    border-bottom:1.5px solid rgba(33,31,27,0.18);
+    border-radius:0;
+    padding:8px 2px 10px;
+    outline:none;
+    transition:border-color 0.25s ease, border-bottom-width 0.25s ease;
+  }
+  .contact-field input::placeholder,
+  .contact-field textarea::placeholder{ color:#a9a494; }
+  .contact-field select{
+    appearance:none;
+    -webkit-appearance:none;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%235B5850' stroke-width='1.8'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+    background-repeat:no-repeat;
+    background-position:right 2px center;
+    background-size:16px;
+    padding-right:24px;
+  }
+  .contact-field textarea{ resize:vertical; min-height:64px; font-family:'Inter', sans-serif; }
+  .contact-field input:focus,
+  .contact-field select:focus,
+  .contact-field textarea:focus{
+    border-bottom-color:var(--green-deep);
+    border-bottom-width:2px;
+  }
+  .contact-submit{
+    grid-column:1 / -1;
+    margin-top:4px;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    gap:10px;
+    background:var(--ink);
+    color:#fff;
+    border:none;
+    padding:13px 30px;
+    font-family:'Fraunces', serif;
+    font-weight:600;
+    font-size:14px;
+    letter-spacing:0.5px;
+    border-radius:40px;
+    cursor:pointer;
+    transition:opacity 0.25s ease;
+  }
+  .contact-submit:hover{ opacity:0.85; }
+
+  @media (max-width:980px){
+    .contact-section{ padding:60px 6vw 50px; }
+    .contact-grid{ grid-template-columns:1fr; gap:24px; }
+    .contact-info{ padding:28px 24px; }
+    .contact-form-wrap{ padding:28px 22px; }
+    .contact-form{ grid-template-columns:1fr; }
+  }
+
+
+  /* ===== BASE FOOTER STYLES (moved before media queries so mobile overrides win) ===== */
+  /* ===== SITE FOOTER ===== */
+  .site-footer{
+    background:var(--footer-green);
+    color:var(--cream);
+    border-radius:32px;
+    margin:60px 3vw 40px;
+    padding:70px 4.5vw 40px;
+  }
+  .footer-top{
+    display:flex;
+    align-items:flex-end;
+    justify-content:space-between;
+    gap:30px;
+    flex-wrap:wrap;
+    padding-bottom:50px;
+    border-bottom:1px solid rgba(245,241,232,0.15);
+    margin-bottom:50px;
+  }
+  .footer-kicker{
+    display:flex;
+    align-items:center;
+    gap:9px;
+    font-family:'Inter', sans-serif;
+    font-size:12px;
+    font-weight:600;
+    letter-spacing:2.5px;
+    text-transform:uppercase;
+    color:rgba(245,241,232,0.6);
+    margin:0 0 18px;
+  }
+  .footer-kicker .dot{ width:6px; height:6px; border-radius:50%; background:var(--lime); }
+  .footer-heading{
+    font-family:'Mrs Saint Delafield', cursive;
+    font-weight:400;
+    font-size:clamp(48px, 7vw, 96px);
+    line-height:0.95;
+    letter-spacing:0.5px;
+    color:var(--cream);
+    margin:0;
+    text-shadow:0 8px 40px rgba(0,0,0,0.4);
+  }
+  .footer-cta-btn{
+    display:inline-flex;
+    align-items:center;
+    gap:10px;
+    background:var(--cream);
+    color:var(--ink);
+    padding:17px 30px;
+    border-radius:40px;
+    font-family:'Fraunces', serif;
+    font-weight:600;
+    font-size:13.5px;
+    letter-spacing:1.5px;
+    text-transform:uppercase;
+    text-decoration:none;
+    white-space:nowrap;
+    transition:opacity 0.25s ease;
+  }
+  .footer-cta-btn:hover{ opacity:0.8; }
+
+  .footer-columns{
+    display:grid;
+    grid-template-columns:1.2fr 1fr 1fr;
+    gap:50px;
+    padding-bottom:50px;
+    border-bottom:1px solid rgba(245,241,232,0.15);
+    margin-bottom:30px;
+    text-align:left;
+  }
+  .footer-logo-wrap{ margin-bottom:18px; }
+  .footer-logo{ height:56px; width:auto; display:block; }
+  .footer-brand-name{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    font-family:'Fraunces', serif;
+    font-weight:500;
+    font-size:21px;
+    color:var(--cream);
+    margin:0 0 16px;
+    text-align:left;
+  }
+  .footer-brand{ text-align:left; }
+  .footer-brand p{
+    font-family:'Inter', sans-serif;
+    font-size:14.5px;
+    line-height:1.75;
+    color:rgba(245,241,232,0.62);
+    max-width:320px;
+    margin:0 0 24px;
+    text-align:left;
+  }
+  .footer-contact a{
+    display:block;
+    font-family:'Inter', sans-serif;
+    font-size:14.5px;
+    color:rgba(245,241,232,0.82);
+    text-decoration:none;
+    margin-bottom:9px;
+    transition:color 0.2s ease;
+  }
+  .footer-contact a:hover{ color:var(--lime); }
+
+  .footer-locations{
+    margin-top:26px;
+    padding-top:24px;
+    border-top:1px solid rgba(245,241,232,0.12);
+    max-width:340px;
+  }
+  .footer-locations-title{
+    font-family:'Inter', sans-serif;
+    font-size:11.5px;
+    font-weight:600;
+    letter-spacing:2px;
+    text-transform:uppercase;
+    color:rgba(245,241,232,0.5);
+    margin:0 0 14px;
+  }
+  .footer-locations p{
+    font-family:'Inter', sans-serif;
+    font-size:14px;
+    line-height:1.65;
+    color:rgba(245,241,232,0.75);
+    margin:0 0 10px;
+  }
+  .footer-locations p strong{
+    font-family:'Fraunces', serif;
+    font-weight:500;
+    color:var(--cream);
+  }
+
+  .footer-social-icons{
+    display:flex;
+    align-items:center;
+    gap:14px;
+    margin-top:24px;
+  }
+  .footer-social-icons a{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    width:38px;
+    height:38px;
+    border-radius:50%;
+    border:1px solid rgba(245,241,232,0.25);
+    color:rgba(245,241,232,0.75);
+    transition:color 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+  }
+  .footer-social-icons a:hover{
+    color:var(--footer-green);
+    background:var(--lime);
+    border-color:var(--lime);
+  }
+  .footer-social-icons svg{
+    width:18px; height:18px; fill:none; stroke:currentColor; stroke-width:1.6;
+  }
+
+  .footer-col-title{
+    font-family:'Inter', sans-serif;
+    font-size:11.5px;
+    font-weight:600;
+    letter-spacing:2px;
+    text-transform:uppercase;
+    color:rgba(245,241,232,0.5);
+    margin:0 0 22px;
+  }
+  .footer-col a{
+    display:block;
+    font-family:'Fraunces', serif;
+    font-size:16px;
+    color:var(--cream);
+    text-decoration:none;
+    margin-bottom:17px;
+    transition:opacity 0.2s ease, color 0.2s ease;
+  }
+  .footer-col a:hover{ opacity:0.75; color:var(--lime); }
+
+  .footer-hours-list{ list-style:none; margin:0; padding:0; }
+  .footer-hours-list li{
+    display:flex;
+    justify-content:space-between;
+    gap:10px;
+    font-family:'Inter', sans-serif;
+    font-size:13px;
+    line-height:1.5;
+    color:rgba(245,241,232,0.65);
+    padding:9px 0;
+  }
+  .footer-hours-list li:last-child{ padding-bottom:0; }
+  .footer-hours-list li span:first-child{
+    font-family:'Fraunces', serif;
+    font-weight:500;
+    color:var(--cream);
+  }
+
+  .footer-bottom{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    flex-wrap:wrap;
+    gap:18px;
+  }
+  .footer-copyright{
+    font-family:'Inter', sans-serif;
+    font-size:13px;
+    color:rgba(245,241,232,0.5);
+  }
+
+  /* ===== HERO / NAV RESPONSIVE ===== */
+  @media (max-width:900px){
+    .hero{ min-height:100svh; }
+    .hero-text{ padding:120px 7vw 70px; }
+    .site-nav{ padding:16px 5vw; }
+    .site-nav.is-scrolled{ padding:12px 5vw; }
+    .nav-logo{ gap:10px; }
+    .nav-logo img{ height:56px; }
+    .site-nav.is-scrolled .nav-logo img{ height:44px; }
+    .nav-logo-text{ font-size:14px; }
+    .nav-logo-text span{ font-size:7.5px; }
+    .nav-icons{ gap:10px; }
+    .nav-icons button, .nav-icons a{ width:36px; height:36px; }
+    .nav-icons svg{ width:15px; height:15px; }
+    .nav-icons svg.menu-icon{ width:17px; height:17px; }
+
+    .mobile-menu-content{ gap:24px; }
+    .mobile-menu-left{ flex:0 0 auto; width:auto; }
+    .mobile-menu-right{
+      flex:1;
+      width:auto;
+      max-width:none;
+      margin-left:0;
+      align-items:flex-end;
+      padding-right:0;
+      gap:28px;
+    }
+    .mobile-menu-items a{ font-size:18px; }
+    .contact-question, .contact-email a, .contact-link a{ font-size:15px; }
+
+    .site-footer{ margin:36px 4vw 20px; padding:50px 6vw 40px; border-radius:22px; }
+    .footer-top{ flex-direction:column; align-items:flex-start; gap:26px; padding-bottom:36px; margin-bottom:36px; }
+    .footer-cta-btn{ align-self:flex-start; }
+    .footer-columns{ grid-template-columns:1fr; gap:42px; padding-bottom:36px; margin-bottom:24px; }
+    .footer-bottom{ flex-direction:column; align-items:flex-start; }
+    .footer-brand p{ max-width:100%; }
+    .footer-locations{ max-width:100%; }
+    .footer-col a{ margin-bottom:14px; }
+    .footer-hours-list li{ gap:16px; padding:12px 0; }
+  }
+
+  @media (max-width:768px){
+    .site-footer{ margin:40px 3.5vw 20px; padding:50px 5vw 35px; border-radius:20px; }
+    .footer-columns{ grid-template-columns:1fr; gap:48px; padding-bottom:42px; margin-bottom:28px; }
+    .footer-col-title{ margin-bottom:20px; }
+    .footer-col a{ margin-bottom:14px; }
+    .footer-hours-list li{ gap:14px; padding:12px 0; }
+  }
+
+  @media (max-width:420px){
+    .hero-text{ padding:110px 6vw 60px; }
+    .site-nav{ padding:18px 5vw; }
+    .site-nav.is-scrolled{ padding:14px 5vw; }
+    .nav-logo{ gap:12px; }
+    .nav-logo img{ height:58px; }
+    .site-nav.is-scrolled .nav-logo img{ height:48px; }
+    .nav-logo-text{ font-size:15px; }
+    .nav-logo-text span{ font-size:8.5px; }
+    .nav-icons{ gap:10px; }
+    .nav-icons button, .nav-icons a{ width:40px; height:40px; }
+    .nav-icons svg{ width:17px; height:17px; }
+    .nav-icons svg.menu-icon{ width:19px; height:19px; }
+
+    .mobile-menu{ padding:88px 22px 40px 22px; }
+    .mobile-menu-content{ flex-direction:column; align-items:stretch; gap:40px; }
+    .mobile-menu-left{ flex:none; width:100%; }
+    .mobile-menu-items a{ font-size:19px; }
+    .mobile-menu-right{
+      flex:none;
+      width:100%;
+      max-width:100%;
+      align-items:flex-start;
+      text-align:left;
+      padding-right:0;
+      padding-top:8px;
+      border-top:1px solid rgba(255,255,255,0.12);
+      gap:28px;
+    }
+    .mobile-menu-contact-section{ padding-top:20px; }
+    .contact-question{ font-size:14px; margin-bottom:10px; }
+    .contact-email{ margin-bottom:6px; }
+    .contact-email a{ font-size:15px; word-break:break-word; }
+    .contact-link a{ font-size:16px; justify-content:flex-start; }
+
+    .site-footer{ margin:28px 3.5vw 16px; padding:40px 4.5vw 30px; border-radius:18px; background:var(--footer-green); }
+    .footer-top{ flex-direction:column; align-items:flex-start; gap:18px; padding-bottom:24px; margin-bottom:24px; border-bottom:1px solid rgba(245,241,232,0.15); }
+    .footer-heading{ font-size:clamp(32px, 7vw, 48px); line-height:1.1; }
+    .footer-kicker{ font-size:9.5px; margin-bottom:12px; }
+    .footer-cta-btn{ padding:13px 22px; font-size:11px; letter-spacing:1px; width:100%; text-align:center; display:flex; align-items:center; justify-content:center; white-space:normal; }
+    .footer-columns{ grid-template-columns:1fr; gap:36px; padding-bottom:28px; margin-bottom:20px; border-bottom:1px solid rgba(245,241,232,0.15); }
+    .footer-brand{ width:100%; }
+    .footer-logo-wrap{ margin-bottom:12px; }
+    .footer-logo{ height:48px; }
+    .footer-brand-name{ font-size:17px; margin-bottom:10px; }
+    .footer-brand p{ font-size:13px; line-height:1.7; margin-bottom:16px; max-width:100%; color:rgba(245,241,232,0.62); }
+    .footer-contact a{ font-size:13px; margin-bottom:8px; display:block; color:rgba(245,241,232,0.82); word-break:break-word; }
+    .footer-locations{ margin-top:16px; padding-top:16px; border-top:1px solid rgba(245,241,232,0.12); width:100%; max-width:100%; }
+    .footer-locations-title{ font-size:10px; margin-bottom:11px; letter-spacing:1.5px; color:rgba(245,241,232,0.5); }
+    .footer-locations p{ font-size:13px; line-height:1.6; margin-bottom:9px; color:rgba(245,241,232,0.75); }
+    .footer-locations p strong{ color:var(--cream); display:block; margin-bottom:3px; }
+    .footer-social-icons{ gap:10px; margin-top:16px; flex-wrap:wrap; }
+    .footer-social-icons a{ width:36px; height:36px; flex-shrink:0; border:1px solid rgba(245,241,232,0.25); }
+    .footer-social-icons svg{ width:16px; height:16px; }
+    .footer-col{ width:100%; }
+    .footer-col-title{ font-size:10px; margin-bottom:18px; letter-spacing:1.8px; text-transform:uppercase; color:rgba(245,241,232,0.5); }
+    .footer-col a{ font-size:14px; margin-bottom:12px; display:block; color:var(--cream); text-decoration:none; word-break:break-word; transition:opacity 0.2s ease, color 0.2s ease; }
+    .footer-col a:active{ opacity:0.75; color:var(--lime); }
+    .footer-hours{ width:100%; }
+    .footer-hours-list{ width:100%; overflow:visible; }
+    .footer-hours-list li{ font-size:12.5px; padding:11px 0; gap:10px; display:flex; align-items:baseline; justify-content:space-between; color:rgba(245,241,232,0.65); flex-wrap:nowrap; }
+    .footer-hours-list li span:first-child{ font-size:12.5px; font-weight:500; color:var(--cream); white-space:nowrap; flex:0 0 auto; }
+    .footer-hours-list li span:last-child{ text-align:right; white-space:nowrap; flex:0 0 auto; margin-left:auto; }
+    .footer-bottom{ flex-direction:column; align-items:flex-start; gap:14px; width:100%; }
+    .footer-copyright{ font-size:12px; width:100%; color:rgba(245,241,232,0.5); }
+    .footer-social{ flex-direction:column; gap:10px; width:100%; }
+    .footer-social a{ font-size:12.5px; color:rgba(245,241,232,0.72); text-decoration:none; display:block; }
+    .footer-legal{ flex-direction:column; gap:10px; width:100%; }
+    .footer-legal a{ font-size:12px; color:rgba(245,241,232,0.5); text-decoration:none; display:block; }
+  }
+
+
+  /* FOOTER — full width, no box */
+  .site-footer,
+  .site-footer:is(*){
+    margin:60px 0 0 !important;
+    border-radius:0 !important;
+    width:100%;
+    padding-left:6vw !important;
+    padding-right:6vw !important;
+  }
+</style>
+
+</head>
+<body>
+
+<nav class="mobile-menu" id="mobileMenu">
+  <div class="mobile-menu-close-wrapper">
+    <span class="close-label">Close</span>
+    <button class="close-menu" id="closeMenu">✕</button>
+  </div>
+
+  <div class="mobile-menu-content">
+    <div class="mobile-menu-left">
+      <h3 class="mobile-menu-section-title">Menu</h3>
+      <ul class="mobile-menu-items">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About Us <span class="arrow">→</span></a></li>
+        <li><a href="services.html">Programs/Courses <span class="arrow">→</span></a></li>
+        <li><a href="event.html">Events <span class="arrow">→</span></a></li>
+        <li><a href="fee.html">Fees <span class="arrow">→</span></a></li>
+        <li><a href="costumerental.html">Costume Rental <span class="arrow">→</span></a></li>
+        <li><a href="testimonial.html">Testimonials <span class="arrow">→</span></a></li>
+        <li><a href="contact.html">Contact <span class="arrow">→</span></a></li>
+      </ul>
+    </div>
+
+    <div class="mobile-menu-right">
+      <div class="mobile-menu-contact-section">
+        <p class="contact-question">Have a question?</p>
+        <p class="contact-email"><a href="mailto:sonu_francis@yahoo.co.nz">sonu_francis@yahoo.co.nz</a></p>
+        <p class="contact-email"><a href="mailto:spacedance569@gmail.com">spacedance569@gmail.com</a></p>
+      </div>
+
+      <div class="mobile-menu-contact-section">
+        <p class="contact-question">Want to dance with us?</p>
+        <p class="contact-link"><a href="#join">Get in Touch <span class="arrow">→</span></a></p>
+      </div>
+
+    </div>
+  </div>
+</nav>
+
+<div class="hero">
+
+  <nav class="site-nav" id="siteNav">
+    <div class="nav-logo">
+      <img src="logo.png" alt="Space Dance & Art Academy logo">
+      <div class="nav-logo-text">
+        Space
+        <span>DANCE &amp; ART ACADEMY</span>
+      </div>
+    </div>
+
+    <div class="nav-icons">
+      <button aria-label="Menu" id="menuBtn">
+        <svg class="menu-icon" viewBox="0 0 24 24"><line x1="4" y1="6" x2="20" y2="6"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="18" x2="14" y2="18"/></svg>
+      </button>
+    </div>
+  </nav>
+
+  <div class="hero-text">
+    <div class="kicker">Say Hello &nbsp;•&nbsp; Let's Connect</div>
+
+    <h1>Get In Touch</h1>
+    <p class="hero-tagline">We'd Love To Hear From You</p>
+
+    <p class="hero-sub">
+      Whether you're enquiring about classes, planning to join a program, or just have a question about Space Dance &amp; Art Academy — our team is here to help.<br><br>
+      Reach out by phone, email, or the form below and we'll get back to you shortly.
+    </p>
+  </div>
+
+  <div class="hero-photo">
+  </div>
+
+</div>
+
+<section class="contact-section">
+  <div class="contact-header reveal reveal-up">
+    <div class="contact-kicker">We're Here To Help</div>
+    <h2 class="contact-title">Reach Out Anytime</h2>
+  </div>
+
+  <div class="contact-grid">
+    <div class="contact-info reveal reveal-left">
+      <h3 class="contact-info-title">Contact Information</h3>
+      <p class="contact-info-lead">Ready to start your dance journey? Come and become part of the Space Family.</p>
+
+      <div class="contact-info-row">
+        <div class="contact-info-icon">
+          <svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+        </div>
+        <div>
+          <p class="contact-info-label">Phone</p>
+          <div class="contact-info-value"><a href="tel:+61452649950">+61 452 649 950</a></div>
+        </div>
+      </div>
+
+      <div class="contact-info-row">
+        <div class="contact-info-icon">
+          <svg viewBox="0 0 24 24"><path d="M4 4h16v16H4z" opacity="0"/><path d="M4 6h16v12H4z"/><path d="M4 7l8 6 8-6"/></svg>
+        </div>
+        <div>
+          <p class="contact-info-label">Email</p>
+          <div class="contact-info-value"><a href="mailto:sonu_francis@yahoo.co.nz">sonu_francis@yahoo.co.nz</a></div>
+          <div class="contact-info-value" style="margin-top:6px;"><a href="mailto:spacedance569@gmail.com">spacedance569@gmail.com</a></div>
+        </div>
+      </div>
+
+      <div class="contact-info-row">
+        <div class="contact-info-icon">
+          <svg viewBox="0 0 24 24"><path d="M12 22s7-6.5 7-12a7 7 0 1 0-14 0c0 5.5 7 12 7 12z"/><circle cx="12" cy="10" r="2.6"/></svg>
+        </div>
+        <div>
+          <p class="contact-info-label">Locations</p>
+          <p><strong>South Brisbane</strong> — Hillcrest, Acacia Ridge &amp; surrounding areas</p>
+          <p style="margin-top:8px;"><strong>North Brisbane</strong> — Aspley / Bridgeman Downs &amp; surrounding areas</p>
+        </div>
+      </div>
+
+      <div class="contact-info-row">
+        <div class="contact-info-icon">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg>
+        </div>
+        <div>
+          <p class="contact-info-label">Business Hours</p>
+          <p>Mon, Tue, Fri &amp; Sat: 9AM – 8:30PM</p>
+          <p style="margin-top:6px;">Wed, Thu &amp; Sun: By enquiry</p>
+        </div>
+      </div>
+
+      <div class="contact-info-social">
+        <a href="https://www.instagram.com/_spacedancex?stkn=MXhsMnJiYm9ydzUwaw==" aria-label="Instagram">
+          <svg viewBox="0 0 24 24"><rect x="2.5" y="2.5" width="19" height="19" rx="5"/><circle cx="12" cy="12" r="4.3"/><circle cx="17.3" cy="6.7" r="1.1" fill="currentColor" stroke="none"/></svg>
+        </a>
+        <a href="https://www.facebook.com/profile.php?id=61584801719037" aria-label="Facebook">
+          <svg viewBox="0 0 24 24"><path d="M15 8.5h2V5.2c-.35-.05-1.55-.15-2.95-.15-2.92 0-4.92 1.84-4.92 5.22V13.5H6.3v3.7h2.83V22h3.7v-4.8h2.72l.43-3.7h-3.15v-2.9c0-1.07.29-1.8 1.82-1.8z"/></svg>
+        </a>
+      </div>
+    </div>
+
+    <div class="contact-form-wrap reveal reveal-right">
+      <h3 class="contact-form-title">Send Us A Message</h3>
+      <p class="contact-form-note">Fill in the form below and a member of our team will get back to you within 1–2 business days.</p>
+
+      <form class="contact-form" id="contactForm">
+        <div class="contact-field">
+          <label for="cf-name">Full Name</label>
+          <input type="text" id="cf-name" name="name" placeholder="Your name" required>
+        </div>
+        <div class="contact-field">
+          <label for="cf-phone">Phone</label>
+          <input type="tel" id="cf-phone" name="phone" placeholder="Your phone number">
+        </div>
+        <div class="contact-field full">
+          <label for="cf-email">Email</label>
+          <input type="email" id="cf-email" name="email" placeholder="you@example.com" required>
+        </div>
+        <div class="contact-field full">
+          <label for="cf-branch">Preferred Branch</label>
+          <select id="cf-branch" name="branch">
+            <option value="south">South Brisbane</option>
+            <option value="north">North Brisbane</option>
+            <option value="either">No preference</option>
+          </select>
+        </div>
+        <div class="contact-field full">
+          <label for="cf-message">Message</label>
+          <textarea id="cf-message" name="message" placeholder="Tell us a little about what you're looking for..." required></textarea>
+        </div>
+
+        <!-- Honeypot: hidden from real users via CSS, bots tend to fill every field -->
+        <div class="contact-field" style="position:absolute; left:-9999px; top:-9999px;" aria-hidden="true">
+          <label for="cf-website">Website</label>
+          <input type="text" id="cf-website" name="website" tabindex="-1" autocomplete="off">
+        </div>
+
+        <p id="contactFormStatus" role="status" style="margin-top:12px; font-family:'Inter', sans-serif; font-size:14px; display:none;"></p>
+
+        <button type="submit" class="contact-submit" id="contactSubmitBtn">Send Message &nbsp;→</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="footer-top">
+    <div>
+      <h2 class="footer-heading">Let's dance<br>together</h2>
+    </div>
+    
+  </div>
+
+  <div class="footer-columns">
+    <div class="footer-brand">
+      <div class="footer-logo-wrap"><img class="footer-logo" src="logo.png" alt="Space Dance & Art Academy logo"></div>
+      <div class="footer-brand-name">Space Dance &amp; Art Academy</div>
+      <p>Space Dance &amp; Art Academy Unit Trust. Two branches, one Space family. We build confidence, celebrate culture and create performers — one class at a time.</p>
+      <div class="footer-contact">
+        <a href="mailto:sonu_francis@yahoo.co.nz">sonu_francis@yahoo.co.nz</a>
+        <a href="mailto:spacedance569@gmail.com">spacedance569@gmail.com</a>
+        <a href="tel:+61452649950">+61 452 649 950</a>
+      </div>
+      <div class="footer-locations">
+        <div class="footer-locations-title">Locations</div>
+        <p><strong>South Brisbane</strong> — Hillcrest, Acacia Ridge &amp; surrounding areas</p>
+        <p><strong>North Brisbane</strong> — Aspley / Bridgeman Downs &amp; surrounding areas</p>
+      </div>
+      <div class="footer-social-icons">
+        <a href="https://www.instagram.com/_spacedancex?stkn=MXhsMnJiYm9ydzUwaw==" aria-label="Instagram">
+          <svg viewBox="0 0 24 24"><rect x="2.5" y="2.5" width="19" height="19" rx="5"/><circle cx="12" cy="12" r="4.3"/><circle cx="17.3" cy="6.7" r="1.1" fill="currentColor" stroke="none"/></svg>
+        </a>
+        <a href="https://www.facebook.com/profile.php?id=61584801719037" aria-label="Facebook">
+          <svg viewBox="0 0 24 24"><path d="M15 8.5h2V5.2c-.35-.05-1.55-.15-2.95-.15-2.92 0-4.92 1.84-4.92 5.22V13.5H6.3v3.7h2.83V22h3.7v-4.8h2.72l.43-3.7h-3.15v-2.9c0-1.07.29-1.8 1.82-1.8z"/></svg>
+        </a>
+      </div>
+    </div>
+
+    <div class="footer-col">
+      <div class="footer-col-title">Company</div>
+      <a href="index.html">Home</a>
+      <a href="about.html">About Us</a>
+      <a href="services.html">Programs/Courses</a>
+      <a href="event.html">Events</a>
+      <a href="fee.html">Fees</a>
+      <a href="costumerental.html">Costume Rental</a>
+      <a href="testimonial.html">Testimonials</a>
+      <a href="contact.html">Contact</a>
+    </div>
+
+    <div class="footer-col footer-hours">
+      <div class="footer-col-title">Business Hours</div>
+      <ul class="footer-hours-list">
+        <li><span>Monday</span><span>9:00 AM – 5:30 PM</span></li>
+        <li><span>Tuesday</span><span>9:00 AM – 8:30 PM</span></li>
+        <li><span>Wednesday</span><span>By enquiry</span></li>
+        <li><span>Thursday</span><span>By enquiry</span></li>
+        <li><span>Friday</span><span>9:00 AM – 8:30 PM</span></li>
+        <li><span>Saturday</span><span>9:00 AM – 7:00 PM</span></li>
+        <li><span>Sunday</span><span>By enquiry</span></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <div class="footer-copyright">© 2026 Space Dance &amp; Art Academy Unit Trust. All rights reserved.</div>
+  </div>
+</footer>
+
+<script>
+  const menuBtn = document.getElementById('menuBtn');
+  const mobileMenu = document.getElementById('mobileMenu');
+  const closeMenu = document.getElementById('closeMenu');
+  const menuItems = document.querySelectorAll('.mobile-menu-items a');
+  const siteNav = document.getElementById('siteNav');
+
+  const openMobileMenu = () => {
+    mobileMenu.classList.add('active');
+    siteNav.classList.add('is-hidden');
+  };
+  const closeMobileMenu = () => {
+    mobileMenu.classList.remove('active');
+    siteNav.classList.remove('is-hidden');
+  };
+
+  menuBtn.addEventListener('click', openMobileMenu);
+  closeMenu.addEventListener('click', closeMobileMenu);
+
+  menuItems.forEach(item => {
+    item.addEventListener('click', closeMobileMenu);
+  });
+
+  document.addEventListener('click', (e) => {
+    if (!mobileMenu.contains(e.target) && !menuBtn.contains(e.target)) {
+      closeMobileMenu();
+    }
+  });
+
+  const setNavScrolled = () => {
+    if (window.scrollY > 40) {
+      siteNav.classList.add('is-scrolled');
+    } else {
+      siteNav.classList.remove('is-scrolled');
+    }
+  };
+  setNavScrolled();
+  window.addEventListener('scroll', setNavScrolled, { passive: true });
+
+  // ── Contact form submission (posts to api/contact.php) ──────────
+  const contactForm = document.getElementById('contactForm');
+  const contactStatus = document.getElementById('contactFormStatus');
+  const contactSubmitBtn = document.getElementById('contactSubmitBtn');
+
+  if (contactForm) {
+    contactForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      contactSubmitBtn.disabled = true;
+      contactSubmitBtn.textContent = 'Sending…';
+      contactStatus.style.display = 'none';
+
+      try {
+        const response = await fetch('api/contact.php', {
+          method: 'POST',
+          body: new FormData(contactForm)
+        });
+        const data = await response.json();
+
+        contactStatus.style.display = 'block';
+        contactStatus.textContent = data.message;
+        contactStatus.style.color = data.success ? 'var(--green-deep)' : '#b3261e';
+
+        if (data.success) {
+          contactForm.reset();
+        }
+      } catch (err) {
+        contactStatus.style.display = 'block';
+        contactStatus.textContent = 'Something went wrong sending your message. Please try again or contact us directly.';
+        contactStatus.style.color = '#b3261e';
+      } finally {
+        contactSubmitBtn.disabled = false;
+        contactSubmitBtn.textContent = 'Send Message  →';
+      }
+    });
+  }
+
+  const revealEls = document.querySelectorAll('.reveal');
+  if ('IntersectionObserver' in window) {
+    const revealObserver = new IntersectionObserver((entries, observer) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.2, rootMargin: '0px 0px -60px 0px' });
+
+    revealEls.forEach(el => revealObserver.observe(el));
+  } else {
+    revealEls.forEach(el => el.classList.add('is-visible'));
+  }
+</script>
+
+</body>
+</html>
